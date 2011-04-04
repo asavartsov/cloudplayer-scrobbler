@@ -2,8 +2,7 @@
  * popup.css
  * Style sheet for popup page
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
- * Licensed under the MIT license
- * http://www.opensource.org/licenses/mit-license.php 
+ * Licensed under the MIT license 
  */
 
 body {
@@ -80,7 +79,7 @@ a.logout {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background: url('img/logout.png') 0 0 no-repeat;
+    background: url('../img/logout.png') 0 0 no-repeat;
     margin-left: 4px;
 }
 
@@ -92,7 +91,7 @@ a.loved, a.notloved {
     display: inline-block;
     width: 16px;
     height: 16px;
-    background-image: url('img/heart-icon.png');
+    background-image: url('../img/love.png');
     background-repeat: no-repeat;
 }
 

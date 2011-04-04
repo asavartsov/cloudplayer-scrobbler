@@ -3,7 +3,6 @@
  * Popup page script
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
  * Licensed under the MIT license
- * http://www.opensource.org/licenses/mit-license.php 
  */
 
 /* Background page */

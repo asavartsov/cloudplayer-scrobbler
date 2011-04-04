@@ -1,9 +1,8 @@
 /**
  * contentscripts.js
- * Player page parsing and transmitting song info to background page
+ * Parses player page and transmit song information to background page
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
  * Licensed under the MIT license
- * http://www.opensource.org/licenses/mit-license.php 
  */
 
 /**
