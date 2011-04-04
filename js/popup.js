@@ -27,7 +27,12 @@ function render_song() {
         $("#track").text(bp.player.song.title);
         $("#cover").attr({ src: bp.player.song.cover || "img/defaultcover.png" });
         
-        render_love_button();
+        if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
+            render_love_button();
+        }
+        else {
+            $("#lastfm-buttons").hide();
+        }
     }
     else {
         $("#song").addClass("nosong");
@@ -93,7 +98,7 @@ function render_auth_link() {
 /**
  * Renders the love button
  */
-function render_love_button() {
+function render_love_button() {    
     $("#love-button").html('<img src="img/ajax-loader.gif">');
     
     bp.lastfm_api.is_track_loved(bp.player.song.title,
