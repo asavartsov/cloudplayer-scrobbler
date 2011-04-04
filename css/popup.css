@@ -1,0 +1,109 @@
+/**
+ * popup.css
+ * Style sheet for popup page
+ * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
+ * Licensed under the MIT license
+ * http://www.opensource.org/licenses/mit-license.php 
+ */
+
+body {
+    padding: 10px;
+    margin: 0;
+    min-width: 300px;
+    
+    font-family: "Helvetica", "Arial", sans-serif;
+}
+
+p {
+    line-height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    color: grey;
+}
+
+a:hover {
+    color: black;
+}
+
+#cover-box {
+    float: left;
+}
+
+#cover {
+    border: none;
+}
+
+#song.nosong {
+    color: grey;
+}
+
+#song.nosong a {
+    font-size: 12px;
+}
+
+#song {
+    margin-left: 75px;
+}
+
+#artist {
+    font-size: 18px;
+}
+
+#track {
+    margin-top: 6px;
+    font-size: 14px;
+}
+
+#lastfm-buttons {
+    margin-top: 6px;
+}
+
+#bottom {
+    margin-top: 10px;
+    font-size: 11px;
+    
+    color: grey;
+}
+        
+#scrobbling {
+    float: left;
+}
+
+#lastfm-profile {
+    float: right;
+}
+
+a.logout {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: url('img/logout.png') 0 0 no-repeat;
+    margin-left: 4px;
+}
+
+a:hover.logout {
+    background-position: 0 -10px;
+}
+
+a.loved, a.notloved {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('img/heart-icon.png');
+    background-repeat: no-repeat;
+}
+
+a.loved {
+    background-position: 0 0;
+}
+
+a.notloved {
+    background-position: 0 -16px;
+}
+
+.clear {
+    clear: both;
+}

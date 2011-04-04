@@ -1,0 +1,31 @@
+{
+    "name": "Amazon Cloud Player scrobbler",
+    "version": "1.0",
+    "description": "Scrobbles songs from Amazon Cloud Player to Last.fm",
+    "icons": {
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "64": "img/icon64.png",
+        "128": "img/icon128.png"
+    },
+    "browser_action": {
+        "default_icon": "img/main-icon.png",
+        "popup": "popup.html"
+    },
+    "permissions": [
+        "http://ws.audioscrobbler.com/",
+        "https://www.amazon.com/"
+    ],
+    "background_page" : "background.html",
+    "content_scripts": [
+        {
+            "js": ["js/contentscript.js"],
+            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"]
+        },
+        {
+            "js": ["js/jquery-1.5.1.min.js"],
+            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"],
+            "run_at": "document_start"
+        }
+    ]
+}
