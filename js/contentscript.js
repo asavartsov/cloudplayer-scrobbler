@@ -90,9 +90,19 @@ Player.prototype._get_song_title = function() {
  * @return Song artist
  */
 Player.prototype._get_song_artist = function() {
-    return $.trim($("div.currentSongDetails .title + span")
-        .text()
-        .replace(/by/, ""));
+    var status = $.trim($("div.currentSongStatus")
+        .contents()
+        .filter(function() { return (this.nodeType == 3); })
+        .text());
+
+    if(status == "From artist:") {
+         return $("div.currentSongStatus a").text();
+    }
+    else {
+        return $.trim($("div.currentSongDetails .title + span")
+            .text()
+            .replace(/by/, ""));
+    }
 }
 
 /**
