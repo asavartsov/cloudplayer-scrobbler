@@ -192,6 +192,41 @@ LastFM.prototype.is_track_loved = function(track, artist, callback) {
 };
 
 /**
+ * Gets tags for the track
+ * 
+ * @param track Track name
+ * @param artist Artist name
+ * @param callback Callback function for the request. Sends false as parameter
+ *                 if request did not succeeded, otherwise the array of tags
+ */
+LastFM.prototype.track_tags = function(track, artist, callback) {
+	if(!this.session.name) {
+		callback(false);
+		return;
+	}
+	
+	var params = {
+		'api_key': this.API_KEY,
+		'method': "track.getTags",
+		'track': track,
+		'artist': artist,
+		'sk': this.session.key
+	};
+	
+	params.api_sig = this._req_sign(params);
+	params.format = "json";
+	
+	this._xhr("GET", params, function(result) {
+		if(!result.error && result.tags) {
+			callback(result.tags);
+		}
+		else {
+			callback(false);
+		}
+	});
+};
+
+/**
  * Makes a signature of request
  *
  * @params Hash of request values

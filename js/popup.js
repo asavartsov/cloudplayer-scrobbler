@@ -13,7 +13,7 @@ $(document).ready(function() {
     render_scrobble_link();
     render_song();
     render_auth_link();
-})
+});
 
 /* Render functions */
 
