@@ -103,7 +103,7 @@ LastFM.prototype.scrobble = function(track, timestamp, artist, callback) {
         function(result) {
             callback(result);
         });
-}
+};
 
 /**
  * Loves a track
@@ -129,7 +129,7 @@ LastFM.prototype.love_track = function(track, artist, callback) {
         function(result) {
             callback(result);
         });
-}
+};
 
 /**
  * Unloves a track
@@ -155,7 +155,7 @@ LastFM.prototype.unlove_track = function(track, artist, callback) {
         function(result) {
             callback(result);
         });
-}
+};
 
 /**
  * Checks whether a track loved by current user
@@ -189,7 +189,7 @@ LastFM.prototype.is_track_loved = function(track, artist, callback) {
             callback(false);
         }
     });
-}
+};
 
 /**
  * Makes a signature of request
@@ -213,7 +213,7 @@ LastFM.prototype._req_sign = function(params) {
     
     signature += this.API_SECRET;
     return hex_md5(signature);
-}
+};
 
 /**
  * Performs an XMLHTTP request and expects JSON as reply
@@ -262,9 +262,9 @@ LastFM.prototype._xhr = function(method, params, callback) {
             
             callback(reply);
         }
-    }
+    };
 
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhr.setRequestHeader("Pragma", "no-cache"); // The cache is a lie!
     xhr.send(_data || null);
-}
+};

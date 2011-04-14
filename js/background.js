@@ -15,7 +15,7 @@ var SETTINGS = {
     playing_icon: "img/main-icon-playing.png",
     paused_icon: "img/main-icon-paused.png",
     error_icon: "img/main-icon-error.png",
-    scrobbling_stopped_icon: "img/main-icon-scrobbling-stopped.png",
+    scrobbling_stopped_icon: "img/main-icon-scrobbling-stopped.png"
 };
 
 var player = {}; // Previous player state

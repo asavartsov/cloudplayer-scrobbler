@@ -56,7 +56,7 @@ function render_scrobble_link() {
     $("#scrobbling").html('<a></a>');
     $("#scrobbling a")
     .attr({
-        href: "#", 
+        href: "#" 
     })
     .click(on_toggle_scrobble)
     .text(bp.SETTINGS.scrobble ? "Stop scrobbling" : "Resume scrobbling");
@@ -88,7 +88,7 @@ function render_auth_link() {
         $("#lastfm-profile").html('<a></a>');
         $("#lastfm-profile a")
         .attr({
-            href: "#", 
+            href: "#" 
         })
         .click(on_auth)
         .text("Connect to Last.fm");

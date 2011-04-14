@@ -29,7 +29,7 @@ function Player() {
  */
 Player.prototype._get_has_song = function() {
     return ($("#noMusicInNowPlaying").length == 0);
-}
+};
 
 /**
  * Checks whether song is playing or paused
@@ -38,7 +38,7 @@ Player.prototype._get_has_song = function() {
  */
 Player.prototype._get_is_playing = function() {
     return $("#mp3Player .mp3MasterPlayGroup").hasClass("playing");
-}
+};
 
 /**
  * Checks current song playing position
@@ -54,7 +54,7 @@ Player.prototype._get_song_position = function() {
     else {
         return 0;
     }
-}
+};
 
 /**
  * Checks current song length
@@ -73,7 +73,7 @@ Player.prototype._get_song_time = function() {
     else {
         return 0;
     }
-}
+};
 
 /**
  * Checks current song title
@@ -82,7 +82,7 @@ Player.prototype._get_song_time = function() {
  */
 Player.prototype._get_song_title = function() {
     return $.trim($("div.currentSongDetails .title").text());
-}
+};
 
 /**
  * Checks current song artist
@@ -103,7 +103,7 @@ Player.prototype._get_song_artist = function() {
             .text()
             .replace(/by/, ""));
     }
-}
+};
 
 /**
  * Checks current song album cover image
@@ -112,7 +112,7 @@ Player.prototype._get_song_artist = function() {
  */
 Player.prototype._get_song_cover = function() {
     return $(".albumImage.small").attr("src");
-}
+};
 
 
 // Port for communicating with background page
