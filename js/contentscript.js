@@ -8,7 +8,7 @@
 /**
  * Player class
  *
- * Cloudplayer page parser
+ * Cloud Player page parser
  */
 function Player() {
     this.has_song = this._get_has_song();
