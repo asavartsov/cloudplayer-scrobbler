@@ -257,7 +257,7 @@ LastFM.prototype.track_top_tags = function(track, artist, callback) {
 /**
  * Makes a signature of request
  *
- * @params Hash of request values
+ * @param params Request values
  * @return Signature string
  */
 LastFM.prototype._req_sign = function(params) {
