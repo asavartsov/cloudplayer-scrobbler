@@ -1,6 +1,6 @@
 /**
  * lastfm.js
- * Last.fm authorisation and scrobling XHR requests
+ * Last.fm authorization and scrobbling XHR requests
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
  * Licensed under the MIT license
  */
