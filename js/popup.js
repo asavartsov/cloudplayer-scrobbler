@@ -13,6 +13,7 @@ $(document).ready(function() {
     render_scrobble_link();
     render_song();
     render_auth_link();
+    render_lastfm_info_link();
 });
 
 /* Render functions */
@@ -120,6 +121,23 @@ function render_love_button() {
             });
 }
 
+/**
+ * Renders last.fm info link
+ */
+function render_lastfm_info_link() {
+    if(bp.player.song) {
+        $("#lastfm-info").html("<a></a>");
+        $("#lastfm-info a").attr({
+            href: "#"
+        })
+        .click(on_lastfm_info)
+        .text("Info");
+    }
+    else {
+        $("#lastfm-info").text("");
+    }
+}
+
 /* Event handlers */
 
 /**
@@ -192,4 +210,11 @@ function on_unlove() {
         });
 
     $("#love-button").html('<img src="img/ajax-loader.gif">');
+}
+
+/**
+ * Shows information about song/artist from last.fm
+ */
+function on_lastfm_info() {
+    
 }

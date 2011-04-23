@@ -75,6 +75,11 @@ a:hover {
     float: right;
 }
 
+#lastfm-info {
+    float: left;
+    margin-left: 20px;
+}
+
 a.logout {
     display: inline-block;
     width: 10px;
