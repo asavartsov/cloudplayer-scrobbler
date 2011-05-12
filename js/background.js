@@ -19,6 +19,8 @@ var SETTINGS = {
 };
 
 var player = {}; // Previous player state
+var now_playing_sent = false;
+var scrobbled = false;
 var lastfm_api = new LastFM(SETTINGS.api_key, SETTINGS.api_secret);
 
 // Load settings from local storage
@@ -70,27 +72,25 @@ function port_on_message(message) {
             // TODO: Setting for 0.7?
             var time_to_scrobble = _p.song.time * 0.7 - _p.song.position;
             
-            if(time_to_scrobble <= 0) {
+            // Check for valid timings and for that the now playing status was reported at least once
+            // This intended to fix an issue with invalid timings that Amazon accidentally reports on
+            // song start
+            if(time_to_scrobble <= 0 && _p.song.position > 0 && _p.song.time > 0) {
                 // TODO: Another way?
-                // if(player.scrobbled && _p.song.position > player.song.position)
-                if(player.scrobbled && 
-                    player.song.title == _p.song.title && 
-                    player.song.artist == _p.song.artist && 
-                    player.song.time == _p.song.time)
-                {
-                    // This song was already been scrobbled
-                    _p.scrobbled = true;
-                }
-                else {
+                // if(scrobbled && _p.song.position > player.song.position)
+
+                if(now_playing_sent && !scrobbled) {
                     // Scrobble this song
                     lastfm_api.scrobble(_p.song.title,
                         /* Song start time */
-                        Math.round(new Date().getTime() / 1000) - 
-                            _p.song.position, 
+                        Math.round(new Date().getTime() / 1000) - _p.song.position, 
                         _p.song.artist,
+                        _p.song.album,
                         function(response) {
                             if(!response.error) {
-                                player.scrobbled = true;
+                            	// Song was scrobled, waiting for the next song
+                                scrobbled = true;
+                                now_playing_sent = false;
                             }
                             else {
                                 if(response.error == 9) {
@@ -109,10 +109,13 @@ function port_on_message(message) {
                 // TODO: Maybe there is no need to do it so frequent?
                 lastfm_api.now_playing(_p.song.title,
                     _p.song.artist,
+                    _p.song.album,
                     function(response) {
-                        console.log("Now playing");
-                        console.log(response);
+                		// TODO: 
                     });
+                
+                now_playing_sent = true;
+                scrobbled = false;
             }
              
             // Save player state
@@ -127,6 +130,8 @@ function port_on_message(message) {
     else {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
         player = {};
+        scrobbled = false;
+        now_playing_sent = false;
     }
 }
  
@@ -135,6 +140,8 @@ function port_on_message(message) {
   */
 function port_on_disconnect() {
     player = {}; // Clear player state
+    scrobbled = false;
+    now_playing_sent = false;
     chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
 }
 

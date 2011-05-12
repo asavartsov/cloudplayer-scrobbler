@@ -19,6 +19,10 @@
     "background_page" : "background.html",
     "content_scripts": [
         {
+            "js": ["js/inject.js"],
+            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"]
+        },
+		{
             "js": ["js/contentscript.js"],
             "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"]
         },

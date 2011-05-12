@@ -59,12 +59,13 @@ LastFM.prototype.authorize = function(token, callback) {
  * @param callback Callback function for the request. Sends a parameter with
  *                 reply decoded as JS object from JSON on null on error
  */
-LastFM.prototype.now_playing = function(track, artist, callback) {
+LastFM.prototype.now_playing = function(track, artist, album, callback) {
     var params = {
         'api_key': this.API_KEY,
         'method': "track.updateNowPlaying",
         'track': track,
         'artist': artist,
+        'album': album,
         'sk': this.session.key
     };
 
@@ -86,13 +87,14 @@ LastFM.prototype.now_playing = function(track, artist, callback) {
  * @param callback Callback function for the request. Sends a parameter with
  *                 reply decoded as JS object from JSON on null on error
  */
-LastFM.prototype.scrobble = function(track, timestamp, artist, callback) {
+LastFM.prototype.scrobble = function(track, timestamp, artist, album, callback) {
     var params = {
         'api_key': this.API_KEY,
         'method': "track.scrobble",
         'track': track,
         'timestamp': timestamp,
         'artist': artist,
+        'album': album,
         'sk': this.session.key
     };
     
