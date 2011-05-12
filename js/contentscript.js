@@ -10,24 +10,40 @@
  *
  * Cloud Player page parser
  */
-function Player() {
-    this.has_song = this._get_has_song();
-    this.is_playing = this._get_is_playing();
+function Player(parser) {	
+    this.has_song = parser._get_has_song();
+    this.is_playing = parser._get_is_playing();
     this.song = {
-        position: this._get_song_position(),
-        time: this._get_song_time(),
-        title: this._get_song_title(),
-        artist: this._get_song_artist(),
-        cover: this._get_song_cover()
+        position: parser._get_song_position(),
+        time: parser._get_song_time(),
+        title: parser._get_song_title(),
+        artist: parser._get_song_artist(),
+        album: parser._get_song_album(),
+        cover: parser._get_song_cover()
     };
 }
+
+/**
+ * Constructor for parser class
+ * Executes scripts to fetch now playing info from cloudplayer
+ * @returns {AmazonParser}
+ */
+AmazonParser = function() {
+	this._player = injectScript(function() {
+    	return amznMusic.widgets.player.getCurrent();
+    });
+	
+	this._time = injectScript(function() {
+    	return amznMusic.widgets.player.getCurrentTime();
+    });	
+};
 
 /**
  * Check whether a song loaded into player widget
  *
  * @return true if some song is loaded, otherwise false
  */
-Player.prototype._get_has_song = function() {
+AmazonParser.prototype._get_has_song = function() {
     return ($("#noMusicInNowPlaying").length == 0);
 };
 
@@ -36,90 +52,67 @@ Player.prototype._get_has_song = function() {
  *
  * @return true if song is playing, false if song is paused
  */
-Player.prototype._get_is_playing = function() {
+AmazonParser.prototype._get_is_playing = function() {
     return $("#mp3Player .mp3MasterPlayGroup").hasClass("playing");
 };
 
 /**
- * Checks current song playing position
+ * Get current song playing position
  *
  * @return Playing position in seconds
  */
-Player.prototype._get_song_position = function() {
-    var _time = $("span.timer span#currentTime").text();
-    _time = $.trim(_time).split(':');
-    if(_time.length == 2) {
-        return (parseInt(_time[0], 10) * 60 + parseInt(_time[1], 10));
-    }
-    else {
-        return 0;
-    }
+AmazonParser.prototype._get_song_position = function() {
+	return this._time;
 };
 
 /**
- * Checks current song length
+ * Get current song length
  *
  * @return Song length in seconds
  */
-Player.prototype._get_song_time = function() {
-    var _time = $("span.timer")
-        .contents()
-        .filter(function() { return (this.nodeType == 3); })
-        .text();
-    _time = $.trim(_time.replace(/\//, '')).split(':');
-    if(_time.length == 2) {
-        return (parseInt(_time[0], 10) * 60 + parseInt(_time[1], 10));
-    }
-    else {
-        return 0;
-    }
+AmazonParser.prototype._get_song_time = function() {
+	return this._player ? parseInt(this._player.metadata.duration) : 0;
 };
 
 /**
- * Checks current song title
+ * Get current song title
  *
  * @return Song title
  */
-Player.prototype._get_song_title = function() {
-    return $.trim($("div.currentSongDetails .title").text());
+AmazonParser.prototype._get_song_title = function() {
+	return this._player ? this._player.metadata.title : null;
 };
 
 /**
- * Checks current song artist
+ * Get current song artist
  *
  * @return Song artist
  */
-Player.prototype._get_song_artist = function() {
-    var status = $.trim($("div.currentSongStatus")
-        .contents()
-        .filter(function() { return (this.nodeType == 3); })
-        .text());
-
-    if(status == "From artist:") {
-         return $("div.currentSongStatus a").text();
-    }
-    else {
-        return $.trim($("div.currentSongDetails .title + span")
-            .text()
-            .replace(/by/, ""));
-    }
+AmazonParser.prototype._get_song_artist = function() {
+	return this._player ? this._player.metadata.artistName : null;
 };
 
 /**
- * Checks current song album cover image
+ * Get current song artwork
  *
  * @return Image URL or default artwork
  */
-Player.prototype._get_song_cover = function() {
-    return $(".albumImage.small").attr("src");
+AmazonParser.prototype._get_song_cover = function() {
+    return this._player ? this._player.metadata.albumCoverImageSmall : null;
 };
 
+/**
+ * Get current song album name
+ *
+ * @return Album name or null
+ */
+AmazonParser.prototype._get_song_album = function() {
+    return this._player ? this._player.metadata.albumName : null;
+};
 
-// Port for communicating with background page
 var port = chrome.extension.connect({name: "cloudplayer"});
 
-// Send song information to the extension every 10 seconds
 window.setInterval(function() {
-        port.postMessage(new Player());
-    }, 
-    10000);
+    port.postMessage(new Player(new AmazonParser()));
+}, 
+10000);	
