@@ -20,6 +20,13 @@ Install stable release from [Google Web Store](https://chrome.google.com/webstor
 Version History
 ===============
 
+**Version 1.1.0**
+
+* New engine for obtaining the song info. Now playing information now gathering directly from Cloud Player JS objects
+* Fixed a problem with long song titles (when some song sometimes were scrobbled like "This is Very Very Very Long Tit...")
+* Now the album information is sent too
+* Fixed a rare problem with superfluous scrobbles on song switching
+
 **Version 1.0.3**
 
 * Fixed link to Cloud Player in popup window (Amazon now returns 403 error for short link used before) 
