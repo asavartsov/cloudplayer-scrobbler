@@ -1,6 +1,6 @@
 {
     "name": "Amazon Cloud Player scrobbler",
-    "version": "1.0.3",
+    "version": "1.1.0",
     "description": "Scrobbles songs from Amazon Cloud Player to Last.fm",
     "icons": {
         "16": "img/icon16.png",
