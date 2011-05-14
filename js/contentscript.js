@@ -113,7 +113,11 @@ AmazonParser.prototype._get_song_album = function() {
 /* Zvooq.ru */
 
 ZvooqParser = function() {
-	// init
+	this._track = injectScript(function() {
+    	var _track = zvq.overlays.PlayerPlayback.getInstance()._track;
+    	_track.release.tracks = null; // Prevent circular references error when converting to JSON
+    	return _track;
+    });
 };
 
 /**
@@ -156,14 +160,7 @@ ZvooqParser.prototype._get_song_position = function() {
  * @return Song length in seconds
  */
 ZvooqParser.prototype._get_song_time = function() {
-    var _time = $(".topPanel_playerPlayback_playered_leave").text();
-    _time = $.trim(_time.replace(/\//, '')).split(':');
-    if(_time.length == 2) {
-        return (parseInt(_time[0], 10) * 60 + parseInt(_time[1], 10) + this._get_song_position());
-    }
-    else {
-        return 0;
-    }
+    return this._track ? this._track.duration : 0;
 };
 
 /**
@@ -172,10 +169,7 @@ ZvooqParser.prototype._get_song_time = function() {
  * @return Song title
  */
 ZvooqParser.prototype._get_song_title = function() {
-	var song_regex = /^(.*)\ —\ (.*)$/;
-	$(".topPanel_playerPlayback_playered_name").text().match(song_regex);
-	
-    return $.trim(RegExp.$2);
+	return this._track ? this._track.name : null;
 };
 
 /**
@@ -184,10 +178,7 @@ ZvooqParser.prototype._get_song_title = function() {
  * @return Song artist
  */
 ZvooqParser.prototype._get_song_artist = function() {
-	var song_regex = /^(.*)\ —\ (.*)$/;
-	$(".topPanel_playerPlayback_playered_name").text().match(song_regex);
-	
-    return $.trim(RegExp.$1);
+	return this._track ? this._track.artist.name : null;
 };
 
 
@@ -197,7 +188,7 @@ ZvooqParser.prototype._get_song_artist = function() {
  * @return Song artist
  */
 ZvooqParser.prototype._get_song_album = function() {
-    return '';
+	return this._track ? this._track.release.name : null;
 };
 
 /**
@@ -206,7 +197,7 @@ ZvooqParser.prototype._get_song_album = function() {
  * @return Image URL or default artwork
  */
 ZvooqParser.prototype._get_song_cover = function() {
-    return null; // Sorry :(
+	return this._track ? this._track.release.image.srcTemplate.replace("{size}", "64x64") : null;
 };
 
 // Port for communicating with background page
