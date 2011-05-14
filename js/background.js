@@ -6,8 +6,8 @@
  */
 
 var SETTINGS = {
-    api_key: "754ae915036422c2134252ffeb1d6cc9",
-    api_secret: "8fbb8c5f1208e4476b27e03bde8e5c99",
+    api_key: "7c891c05fba81f6b8ae20879adb886c9",
+    api_secret: "fd76ad89005baa6c8d0888a73fa5e175",
     
     callback_file: "lastfm_callback.html",
     
@@ -41,7 +41,7 @@ chrome.extension.onConnect.addListener(port_on_connect);
  * Content script has connected to the extension
  */
 function port_on_connect(port) {
-    console.assert(port.name == "cloudplayer"); 
+    console.assert(port.name == "zvooqplayer"); 
 
     // Connect another port event handlers
     port.onMessage.addListener(port_on_message);

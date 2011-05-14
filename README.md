@@ -1,33 +1,30 @@
-Amazon Cloud Player scrobbler
+zvooq.ru scrobbler
 -----------------------------
 
-Google Chrome plugin for scrobbling songs from Amazon Cloud Player to Last.fm
+Google Chrome plugin for scrobbling songs from zvooq.ru to Last.fm
+
+Based on my [Amazon Cloud Player scrobbler](https://chrome.google.com/webstore/detail/nolkhoglpmelgkcljkjlfeledieoahoa)
 
 Features
 ========
 
 * Scrobbles now playing songs at 70% played time
 * Song information in popup window
-* Cloud Player state in icon
+* Player state in icon
 * Love/unlove now playing song
 * Option to turn scrobbling off if you do not want to send scrobbles
 
 Installation
 ============
 
-Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/nolkhoglpmelgkcljkjlfeledieoahoa)
+Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/cnoligcklhlkdojjmmabcppjdkhjgppo)
 
 Version History
 ===============
 
-**Version 1.0.3**
+**Version 1.1.0**
 
-* Fixed link to Cloud Player in popup window (Amazon now returns 403 error for short link used before) 
-
-**Version 1.0.2**
-
-* Fixed artist detection when playing from Artists section 
-* Fixed a problem when popup displayed a song info when player stopped playing 
+First public release
 
 Author
 ======

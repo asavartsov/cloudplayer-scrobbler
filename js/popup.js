@@ -40,10 +40,10 @@ function render_song() {
         $("#track").html('<a></a>');
         $("#track a")
         .attr({ 
-            href: "https://www.amazon.com/gp/dmusic/mp3/player",
+            href: "http://zvooq.ru/",
             target: "_blank"
         })
-        .text("Start Cloud Player");
+        .text("Go to zvooq.ru");
         $("#cover ").attr({ src: "img/defaultcover.png" });
         $("#lastfm-buttons").hide();
     }
