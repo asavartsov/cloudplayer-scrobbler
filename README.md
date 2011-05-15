@@ -1,48 +1,36 @@
-Amazon Cloud Player scrobbler
+Скробблер для Яндекс.Музыки
 -----------------------------
 
-Google Chrome plugin for scrobbling songs from Amazon Cloud Player to Last.fm
+Плагин для Google Chrome, который скробблит песни из Яндекс.Музыки в Last.fm
 
-Features
-========
+Что умеет
+=========
 
-* Scrobbles now playing songs at 70% played time
-* Song information in popup window
-* Cloud Player state in icon
-* Love/unlove now playing song
-* Option to turn scrobbling off if you do not want to send scrobbles
+* Скробблить песни и отсылать статусы "Сейчас играет"
+* Показывать информацию об воспроизводимой композиции в окне плагина
+* Показывает состоянее плеера в иконки
+* Можно отметить текущую песню как любимую
+* Позволяет включать/отключать скробблинг при необходимости
 
-Installation
-============
+Установка
+=========
 
-Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/nolkhoglpmelgkcljkjlfeledieoahoa)
+Плагин опубликован в галерее [Google Web Store](https://chrome.google.com/webstore/detail/???)
 
-Version History
-===============
+История версий
+==============
 
-**Version 1.1.0**
+**Версия 1.1.0**
 
-* New engine for obtaining the song info. Now playing information now gathering directly from Cloud Player JS objects
-* Fixed a problem with long song titles (when some song sometimes were scrobbled like "This is Very Very Very Long Tit...")
-* Now the album information is sent too
-* Fixed a rare problem with superfluous scrobbles on song switching
+* Первый релиз (основан на [скробблере для Amazon Cloud Player'а](https://chrome.google.com/webstore/detail/nolkhoglpmelgkcljkjlfeledieoahoa))
 
-**Version 1.0.3**
-
-* Fixed link to Cloud Player in popup window (Amazon now returns 403 error for short link used before) 
-
-**Version 1.0.2**
-
-* Fixed artist detection when playing from Artists section 
-* Fixed a problem when popup displayed a song info when player stopped playing 
-
-Author
-======
+Автор
+=====
 
 [Alexey Savartsov](https://github.com/asavartsov), asavartsov@gmail.com
 
-License
-=======
+Лицензия на исходный код
+========================
 
 (The MIT License)
 

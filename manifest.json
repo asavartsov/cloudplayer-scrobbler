@@ -1,7 +1,7 @@
 {
-    "name": "Amazon Cloud Player scrobbler",
+    "name": "Скробблер для Яндекс.Музыки",
     "version": "1.1.0",
-    "description": "Scrobbles songs from Amazon Cloud Player to Last.fm",
+    "description": "Скробблит песни из Яндекс.Музыки в Last.fm",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
@@ -14,21 +14,21 @@
     },
     "permissions": [
         "http://ws.audioscrobbler.com/",
-        "https://www.amazon.com/"
+        "http://music.yandex.ru/"
     ],
     "background_page" : "background.html",
     "content_scripts": [
         {
             "js": ["js/inject.js"],
-            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"]
+            "matches": ["http://music.yandex.ru/*"]
         },
 		{
             "js": ["js/contentscript.js"],
-            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"]
+            "matches": ["http://music.yandex.ru/*"]
         },
         {
             "js": ["js/jquery-1.5.1.min.js"],
-            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"],
+            "matches": ["http://music.yandex.ru/*"],
             "run_at": "document_start"
         }
     ]

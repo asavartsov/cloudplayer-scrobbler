@@ -8,7 +8,7 @@
 /**
  * Player class
  *
- * Cloud Player page parser
+ * Player info
  */
 function Player(parser) {	
     this.has_song = parser._get_has_song();
@@ -25,26 +25,28 @@ function Player(parser) {
 
 /**
  * Constructor for parser class
- * Executes scripts to fetch now playing info from cloudplayer
- * @returns {AmazonParser}
+ * Executes scripts to fetch now playing info from Yandex
+ * @returns {YandexParser}
  */
-AmazonParser = function() {
-	this._player = injectScript(function() {
-    	return amznMusic.widgets.player.getCurrent();
+YandexParser = function() {
+	this._track = injectScript(function() {
+    	return Mu.Player.getCurrentTrack();
     });
 	
-	this._time = injectScript(function() {
-    	return amznMusic.widgets.player.getCurrentTime();
+	this._status = injectScript(function() {
+    	return Mu.Player.real.getCurrentTrackStatus();
     });	
 };
+
+YandexParser._album_name = "";
 
 /**
  * Check whether a song loaded into player widget
  *
  * @return true if some song is loaded, otherwise false
  */
-AmazonParser.prototype._get_has_song = function() {
-    return ($("#noMusicInNowPlaying").length == 0);
+YandexParser.prototype._get_has_song = function() {
+    return (this._status.track_id != null);
 };
 
 /**
@@ -52,8 +54,8 @@ AmazonParser.prototype._get_has_song = function() {
  *
  * @return true if song is playing, false if song is paused
  */
-AmazonParser.prototype._get_is_playing = function() {
-    return $("#mp3Player .mp3MasterPlayGroup").hasClass("playing");
+YandexParser.prototype._get_is_playing = function() {
+    return (this._status.playStatus == "playing");
 };
 
 /**
@@ -61,8 +63,8 @@ AmazonParser.prototype._get_is_playing = function() {
  *
  * @return Playing position in seconds
  */
-AmazonParser.prototype._get_song_position = function() {
-	return this._time;
+YandexParser.prototype._get_song_position = function() {
+	return this._status.position ? Math.floor(this._status.position / 1000) : 0;
 };
 
 /**
@@ -70,8 +72,8 @@ AmazonParser.prototype._get_song_position = function() {
  *
  * @return Song length in seconds
  */
-AmazonParser.prototype._get_song_time = function() {
-	return this._player ? parseInt(this._player.metadata.duration) : 0;
+YandexParser.prototype._get_song_time = function() {
+	return this._status.duration ? Math.floor(this._status.duration / 1000) : 0;
 };
 
 /**
@@ -79,8 +81,8 @@ AmazonParser.prototype._get_song_time = function() {
  *
  * @return Song title
  */
-AmazonParser.prototype._get_song_title = function() {
-	return this._player ? this._player.metadata.title : null;
+YandexParser.prototype._get_song_title = function() {
+	return this._track ? this._track.title : null;
 };
 
 /**
@@ -88,8 +90,8 @@ AmazonParser.prototype._get_song_title = function() {
  *
  * @return Song artist
  */
-AmazonParser.prototype._get_song_artist = function() {
-	return this._player ? this._player.metadata.artistName : null;
+YandexParser.prototype._get_song_artist = function() {
+	return this._track ? this._track.artist : null;
 };
 
 /**
@@ -97,8 +99,14 @@ AmazonParser.prototype._get_song_artist = function() {
  *
  * @return Image URL or default artwork
  */
-AmazonParser.prototype._get_song_cover = function() {
-    return this._player ? this._player.metadata.albumCoverImageSmall : null;
+YandexParser.prototype._get_song_cover = function() {
+    if(this._track) {
+    	if(this._track.cover.indexOf("default") == -1) {
+    		return this._track.cover.replace("30x30", "100x100");
+    	}
+    }
+    
+    return null;
 };
 
 /**
@@ -106,13 +114,25 @@ AmazonParser.prototype._get_song_cover = function() {
  *
  * @return Album name or null
  */
-AmazonParser.prototype._get_song_album = function() {
-    return this._player ? this._player.metadata.albumName : null;
+YandexParser.prototype._get_song_album = function() {	
+	if(this._track) {
+		$.ajax({
+			  url: "http://music.yandex.ru/fragment/album/" + this._track.album_id,
+			  success: function(data) {
+				  YandexParser._album_name = $(".b-title__title", $(data)).text();
+			  },
+			  error: function() {
+				  YandexParser._album_name = "";
+			  }
+			});
+	}
+	
+    return YandexParser._album_name;
 };
 
-var port = chrome.extension.connect({name: "cloudplayer"});
+var port = chrome.extension.connect({name: "yandexplayer"});
 
 window.setInterval(function() {
-    port.postMessage(new Player(new AmazonParser()));
+    port.postMessage(new Player(new YandexParser()));
 }, 
 10000);	

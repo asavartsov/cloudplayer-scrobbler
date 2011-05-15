@@ -41,7 +41,7 @@ chrome.extension.onConnect.addListener(port_on_connect);
  * Content script has connected to the extension
  */
 function port_on_connect(port) {
-    console.assert(port.name == "cloudplayer"); 
+    console.assert(port.name == "yandexplayer"); 
 
     // Connect another port event handlers
     port.onMessage.addListener(port_on_message);
@@ -68,7 +68,7 @@ function port_on_message(message) {
             chrome.browserAction.setIcon({ 
                 'path': SETTINGS.playing_icon });
             
-            // Last.fm recommends to scrobble a song at least at 50%
+            // Last.fm recommends to scrobble a song at least at 70%
             // TODO: Setting for 0.7?
             var time_to_scrobble = _p.song.time * 0.7 - _p.song.position;
             

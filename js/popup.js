@@ -25,7 +25,7 @@ function render_song() {
     {
         $("#artist").text(bp.player.song.artist);
         $("#track").text(bp.player.song.title);
-        $("#cover").attr({ src: bp.player.song.cover || "img/defaultcover.png" });
+        $("#cover").attr({ src: bp.player.song.cover || "img/defaultcover.png", width: "60", height: "60" });
         
         if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
             render_love_button();
@@ -36,14 +36,14 @@ function render_song() {
     }
     else {
         $("#song").addClass("nosong");
-        $("#artist").text("Nothing is playing");
+        $("#artist").text("Плеер молчит");
         $("#track").html('<a></a>');
         $("#track a")
         .attr({ 
-            href: "https://www.amazon.com/gp/dmusic/mp3/player",
+            href: "http://music.yandex.ru/",
             target: "_blank"
         })
-        .text("Start Cloud Player");
+        .text("Яндекс.Музыка");
         $("#cover ").attr({ src: "img/defaultcover.png" });
         $("#lastfm-buttons").hide();
     }
@@ -59,7 +59,7 @@ function render_scrobble_link() {
         href: "#" 
     })
     .click(on_toggle_scrobble)
-    .text(bp.SETTINGS.scrobble ? "Stop scrobbling" : "Resume scrobbling");
+    .text(bp.SETTINGS.scrobble ? "Приостановить скробблинг" : "Разрешить скробблинг");
 }
 
 /**
@@ -68,7 +68,7 @@ function render_scrobble_link() {
 function render_auth_link() {
     if(bp.lastfm_api.session.name && bp.lastfm_api.session.key)
     {
-        $("#lastfm-profile").html("Logged in as " + "<a></a><a></a>");
+        $("#lastfm-profile").html("Профиль " + "<a></a><a></a>");
         $("#lastfm-profile a:first")
         .attr({
             href: "http://last.fm/user/" + bp.lastfm_api.session.name,
@@ -79,7 +79,7 @@ function render_auth_link() {
         $("#lastfm-profile a:last")
         .attr({
             href: "#",
-            title: "Logout"
+            title: "Забыть этот профиль"
         })
         .click(on_logout)
         .addClass("logout");
@@ -91,7 +91,7 @@ function render_auth_link() {
             href: "#" 
         })
         .click(on_auth)
-        .text("Connect to Last.fm");
+        .text("Подключить профиль Last.fm");
     }
 }
 
@@ -107,13 +107,13 @@ function render_love_button() {
                 $("#love-button").html('<a href="#"></a>');
         
                 if(result) {
-                    $("#love-button a").attr({ title: "Unlove this song"})
+                    $("#love-button a").attr({ title: "Снять отметку «любимая»"})
                     .click(on_unlove)
                     .addClass("loved");
             
                 }
                 else {
-                    $("#love-button a").attr({ title: "Love this song" })
+                    $("#love-button a").attr({ title: "Отметить как любимую" })
                     .click(on_love)
                     .addClass("notloved");
                 }
