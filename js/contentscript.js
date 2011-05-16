@@ -30,9 +30,25 @@ function Player(parser) {
  */
 ZvooqParser = function() {
 	this._track = injectScript(function() {
-    	var _track = zvq.overlays.PlayerPlayback.getInstance()._track;
-    	_track.release.tracks = null; // Prevent circular references error when converting to JSON
-    	return _track;
+    	function clone_object(obj) {
+    		var clone = {};
+    		
+    		for(var i in obj) {
+    			if(i == "tracks") {
+    				/* do not copy tracks to prevent circular references */
+    				clone[i] = null;
+    			}
+    			else if(typeof(obj[i]) == "object") {
+    				clone[i] = clone_object(obj[i]);
+    			}
+    			else {
+    				clone[i] = obj[i];
+    			}
+    		}
+    		return clone;
+    	}
+    	
+    	return clone_object(zvq.overlays.PlayerPlayback.getInstance()._track);
     });
 };
 
@@ -94,7 +110,19 @@ ZvooqParser.prototype._get_song_title = function() {
  * @return Song artist
  */
 ZvooqParser.prototype._get_song_artist = function() {
-	return this._track ? this._track.artist.name : null;
+	if(this._track) {
+        // Zvooq.ru has many tracks with artist names like "Pixies, Pixies"
+        var name_split = this._track.artist.name.split(", ");
+
+        if(name_split.length == 2 && name_split[0] == name_split[1]) {
+            return name_split[0];
+        }
+        else {
+            return this._track.artist.name;
+        }
+    }
+
+    return null;
 };
 
 
