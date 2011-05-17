@@ -1,7 +1,7 @@
 {
     "name": "zvooq.ru scrobbler",
     "version": "1.1.2",
-    "description": "Scrobbles songs from zvooq.ru to Last.fm",
+    "description": "Скробблит песни из плеера на zvooq.ru в Last.fm",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
