@@ -36,14 +36,14 @@ function render_song() {
     }
     else {
         $("#song").addClass("nosong");
-        $("#artist").text("Nothing is playing");
+        $("#artist").text("Плеер молчит");
         $("#track").html('<a></a>');
         $("#track a")
         .attr({ 
             href: "http://zvooq.ru/",
             target: "_blank"
         })
-        .text("Go to zvooq.ru");
+        .text("Перейти на zvooq.ru");
         $("#cover ").attr({ src: "img/defaultcover.png" });
         $("#lastfm-buttons").hide();
     }
@@ -59,7 +59,7 @@ function render_scrobble_link() {
         href: "#" 
     })
     .click(on_toggle_scrobble)
-    .text(bp.SETTINGS.scrobble ? "Stop scrobbling" : "Resume scrobbling");
+    .text(bp.SETTINGS.scrobble ? "Приостановить скробблинг" : "Возобновить скробблинг");
 }
 
 /**
@@ -68,7 +68,7 @@ function render_scrobble_link() {
 function render_auth_link() {
     if(bp.lastfm_api.session.name && bp.lastfm_api.session.key)
     {
-        $("#lastfm-profile").html("Logged in as " + "<a></a><a></a>");
+        $("#lastfm-profile").html("Профиль " + "<a></a><a></a>");
         $("#lastfm-profile a:first")
         .attr({
             href: "http://last.fm/user/" + bp.lastfm_api.session.name,
@@ -79,7 +79,7 @@ function render_auth_link() {
         $("#lastfm-profile a:last")
         .attr({
             href: "#",
-            title: "Logout"
+            title: "Забыть этот профиль"
         })
         .click(on_logout)
         .addClass("logout");
@@ -91,7 +91,7 @@ function render_auth_link() {
             href: "#" 
         })
         .click(on_auth)
-        .text("Connect to Last.fm");
+        .text("Подключить профиль Last.fm");
     }
 }
 
@@ -107,13 +107,13 @@ function render_love_button() {
                 $("#love-button").html('<a href="#"></a>');
         
                 if(result) {
-                    $("#love-button a").attr({ title: "Unlove this song"})
+                    $("#love-button a").attr({ title: "Удалить из любимых"})
                     .click(on_unlove)
                     .addClass("loved");
             
                 }
                 else {
-                    $("#love-button a").attr({ title: "Love this song" })
+                    $("#love-button a").attr({ title: "Добавить в любимые" })
                     .click(on_love)
                     .addClass("notloved");
                 }
