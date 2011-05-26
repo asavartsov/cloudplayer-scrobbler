@@ -26,15 +26,16 @@ function Player(parser) {
 /**
  * Constructor for parser class
  * Executes scripts to fetch now playing info from cloudplayer
- * @returns {AmazonParser}
+ * @returns {GoogleMusicParser}
  */
-AmazonParser = function() {
+GoogleMusicParser = function() {
+// TODO fetch parser correctly
 	this._player = injectScript(function() {
-    	return amznMusic.widgets.player.getCurrent();
+    	return $("#player div");
     });
 	
 	this._time = injectScript(function() {
-    	return amznMusic.widgets.player.getCurrentTime();
+    	return $("#currentTime").text();
     });	
 };
 
@@ -43,8 +44,8 @@ AmazonParser = function() {
  *
  * @return true if some song is loaded, otherwise false
  */
-AmazonParser.prototype._get_has_song = function() {
-    return ($("#noMusicInNowPlaying").length == 0);
+GoogleMusicParser.prototype._get_has_song = function() {
+    return $("#playerSongInfo div").hasClass("goog-inline-block goog-flat-button");
 };
 
 /**
@@ -52,8 +53,8 @@ AmazonParser.prototype._get_has_song = function() {
  *
  * @return true if song is playing, false if song is paused
  */
-AmazonParser.prototype._get_is_playing = function() {
-    return $("#mp3Player .mp3MasterPlayGroup").hasClass("playing");
+GoogleMusicParser.prototype._get_is_playing = function() {
+    return ($("#playPause").attr("title") == "Pause");
 };
 
 /**
@@ -61,8 +62,8 @@ AmazonParser.prototype._get_is_playing = function() {
  *
  * @return Playing position in seconds
  */
-AmazonParser.prototype._get_song_position = function() {
-	return this._time;
+GoogleMusicParser.prototype._get_song_position = function() {
+	return $("#currentTime").text();
 };
 
 /**
@@ -70,8 +71,8 @@ AmazonParser.prototype._get_song_position = function() {
  *
  * @return Song length in seconds
  */
-AmazonParser.prototype._get_song_time = function() {
-	return this._player ? parseInt(this._player.metadata.duration) : 0;
+GoogleMusicParser.prototype._get_song_time = function() {
+	return $("#duration").text();
 };
 
 /**
@@ -79,8 +80,9 @@ AmazonParser.prototype._get_song_time = function() {
  *
  * @return Song title
  */
-AmazonParser.prototype._get_song_title = function() {
-	return this._player ? this._player.metadata.title : null;
+GoogleMusicParser.prototype._get_song_title = function() {
+	// the text inside the div located inside element with id="playerSongTitle"
+	return $("#playerSongTitle div").text();
 };
 
 /**
@@ -88,8 +90,8 @@ AmazonParser.prototype._get_song_title = function() {
  *
  * @return Song artist
  */
-AmazonParser.prototype._get_song_artist = function() {
-	return this._player ? this._player.metadata.artistName : null;
+GoogleMusicParser.prototype._get_song_artist = function() {
+	return $("#playerArtist div").text();
 };
 
 /**
@@ -97,8 +99,8 @@ AmazonParser.prototype._get_song_artist = function() {
  *
  * @return Image URL or default artwork
  */
-AmazonParser.prototype._get_song_cover = function() {
-    return this._player ? this._player.metadata.albumCoverImageSmall : null;
+GoogleMusicParser.prototype._get_song_cover = function() {
+    return $("#playingAlbumArt").attr("src");
 };
 
 /**
@@ -106,13 +108,13 @@ AmazonParser.prototype._get_song_cover = function() {
  *
  * @return Album name or null
  */
-AmazonParser.prototype._get_song_album = function() {
-    return this._player ? this._player.metadata.albumName : null;
+GoogleMusicParser.prototype._get_song_album = function() {
+    return null;
 };
 
 var port = chrome.extension.connect({name: "cloudplayer"});
 
 window.setInterval(function() {
-    port.postMessage(new Player(new AmazonParser()));
+    port.postMessage(new Player(new GoogleMusicParser()));
 }, 
 10000);	

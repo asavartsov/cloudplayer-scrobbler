@@ -40,7 +40,7 @@ function render_song() {
         $("#track").html('<a></a>');
         $("#track a")
         .attr({ 
-            href: "https://www.amazon.com/gp/dmusic/mp3/player",
+            href: "http://music.google.com/music/listen",
             target: "_blank"
         })
         .text("Start Cloud Player");

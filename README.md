@@ -1,7 +1,7 @@
-Amazon Cloud Player scrobbler
+Google Music Player scrobbler
 -----------------------------
 
-Google Chrome plugin for scrobbling songs from Amazon Cloud Player to Last.fm
+Google Chrome plugin for scrobbling songs from Google Music Player to Last.fm
 
 Features
 ========
@@ -19,6 +19,10 @@ Install stable release from [Google Web Store](https://chrome.google.com/webstor
 
 Version History
 ===============
+
+**Version 1.2.0**
+
+* Port scrobbler to Google Music Beta
 
 **Version 1.1.0**
 
