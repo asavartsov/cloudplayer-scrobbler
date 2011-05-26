@@ -48,7 +48,7 @@ ZvooqParser = function() {
     		return clone;
     	}
     	
-    	return clone_object(zvq.overlays.PlayerPlayback.getInstance()._track);
+    	return clone_object(zvqApp.playerPlayback._track);
     });
 };
 
