@@ -29,14 +29,7 @@ function Player(parser) {
  * @returns {GoogleMusicParser}
  */
 GoogleMusicParser = function() {
-// TODO fetch parser correctly
-	this._player = injectScript(function() {
-    	return $("#player div");
-    });
-	
-	this._time = injectScript(function() {
-    	return $("#currentTime").text();
-    });	
+
 };
 
 /**
@@ -100,7 +93,7 @@ GoogleMusicParser.prototype._get_song_artist = function() {
  * @return Image URL or default artwork
  */
 GoogleMusicParser.prototype._get_song_cover = function() {
-    return $("#playingAlbumArt").attr("src");
+    return ("http:" + $("#playingAlbumArt").attr("src"));
 };
 
 /**
