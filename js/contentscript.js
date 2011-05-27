@@ -56,7 +56,8 @@ GoogleMusicParser.prototype._get_is_playing = function() {
  * @return Playing position in seconds
  */
 GoogleMusicParser.prototype._get_song_position = function() {
-    return $("#currentTime").text();
+    var t = $("#currentTime").text().split(':');
+    return (t[0] * 60 + t[1]);
 };
 
 /**
@@ -65,7 +66,8 @@ GoogleMusicParser.prototype._get_song_position = function() {
  * @return Song length in seconds
  */
 GoogleMusicParser.prototype._get_song_time = function() {
-    return $("#duration").text();
+    var t = $("#duration").text().split(':');
+    return (t[0] * 60 + t[1]);
 };
 
 /**
