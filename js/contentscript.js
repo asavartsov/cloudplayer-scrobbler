@@ -56,7 +56,7 @@ GoogleMusicParser.prototype._get_is_playing = function() {
  * @return Playing position in seconds
  */
 GoogleMusicParser.prototype._get_song_position = function() {
-	return $("#currentTime").text();
+    return $("#currentTime").text();
 };
 
 /**
@@ -65,7 +65,7 @@ GoogleMusicParser.prototype._get_song_position = function() {
  * @return Song length in seconds
  */
 GoogleMusicParser.prototype._get_song_time = function() {
-	return $("#duration").text();
+    return $("#duration").text();
 };
 
 /**
@@ -74,8 +74,8 @@ GoogleMusicParser.prototype._get_song_time = function() {
  * @return Song title
  */
 GoogleMusicParser.prototype._get_song_title = function() {
-	// the text inside the div located inside element with id="playerSongTitle"
-	return $("#playerSongTitle div").text();
+    // the text inside the div located inside element with id="playerSongTitle"
+    return $("#playerSongTitle div").text();
 };
 
 /**
@@ -84,7 +84,7 @@ GoogleMusicParser.prototype._get_song_title = function() {
  * @return Song artist
  */
 GoogleMusicParser.prototype._get_song_artist = function() {
-	return $("#playerArtist div").text();
+    return $("#playerArtist div").text();
 };
 
 /**
