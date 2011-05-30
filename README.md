@@ -33,6 +33,7 @@ Authors
 =======
 
 [Alexey Savartsov](https://github.com/asavartsov), asavartsov@gmail.com
+
 Google Music support by [Brad Lambeth](https://github.com/bradlambeth), brad@lambeth.us
 
 License
