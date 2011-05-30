@@ -6,8 +6,8 @@
  */
 
 var SETTINGS = {
-    api_key: "754ae915036422c2134252ffeb1d6cc9",
-    api_secret: "8fbb8c5f1208e4476b27e03bde8e5c99",
+    api_key: "d00dce85051b7dbcbfcc165eaebfc6d2",
+    api_secret: "bdfcae3563763ece1b6d3dcdd56a7ab8",
     
     callback_file: "lastfm_callback.html",
     

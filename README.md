@@ -15,7 +15,7 @@ Features
 Installation
 ============
 
-Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/nolkhoglpmelgkcljkjlfeledieoahoa)
+Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/lhlmaloocaogaldcbpimhlbimmhaonep)
 
 Version History
 ===============
@@ -24,27 +24,11 @@ Version History
 
 * Port scrobbler to Google Music Beta
 
-**Version 1.1.0**
-
-* New engine for obtaining the song info. Now playing information now gathering directly from Cloud Player JS objects
-* Fixed a problem with long song titles (when some song sometimes were scrobbled like "This is Very Very Very Long Tit...")
-* Now the album information is sent too
-* Fixed a rare problem with superfluous scrobbles on song switching
-
-**Version 1.0.3**
-
-* Fixed link to Cloud Player in popup window (Amazon now returns 403 error for short link used before) 
-
-**Version 1.0.2**
-
-* Fixed artist detection when playing from Artists section 
-* Fixed a problem when popup displayed a song info when player stopped playing 
-
 Authors
 =======
 
 [Alexey Savartsov](https://github.com/asavartsov), asavartsov@gmail.com
-Google Music support by Brad Lambeth, brad@lambeth.us
+Google Music support by [Brad Lambeth](https://github.com/bradlambeth), brad@lambeth.us
 
 License
 =======
