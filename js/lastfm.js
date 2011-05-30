@@ -65,7 +65,7 @@ LastFM.prototype.now_playing = function(track, artist, album, callback) {
         'method': "track.updateNowPlaying",
         'track': track,
         'artist': artist,
-        'album': album,
+        'album': album || "",
         'sk': this.session.key
     };
 
@@ -94,7 +94,7 @@ LastFM.prototype.scrobble = function(track, timestamp, artist, album, callback) 
         'track': track,
         'timestamp': timestamp,
         'artist': artist,
-        'album': album,
+        'album': album || "",
         'sk': this.session.key
     };
     

@@ -40,17 +40,18 @@ Version History
 * Fixed artist detection when playing from Artists section 
 * Fixed a problem when popup displayed a song info when player stopped playing 
 
-Author
-======
+Authors
+=======
 
 [Alexey Savartsov](https://github.com/asavartsov), asavartsov@gmail.com
+Google Music support by Brad Lambeth, brad@lambeth.us
 
 License
 =======
 
 (The MIT License)
 
-Copyright (c) 2011 Alexey Savartsov, asavartsov@gmail.com
+Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>, Brad Lambeth <brad@lambeth.us>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

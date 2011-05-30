@@ -43,7 +43,7 @@ function render_song() {
             href: "http://music.google.com/music/listen",
             target: "_blank"
         })
-        .text("Start Cloud Player");
+        .text("Go to Google Music");
         $("#cover ").attr({ src: "img/defaultcover.png" });
         $("#lastfm-buttons").hide();
     }
