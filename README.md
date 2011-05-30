@@ -20,6 +20,11 @@ Install stable release from [Google Web Store](https://chrome.google.com/webstor
 Version History
 ===============
 
+**Version 1.2.1**
+
+* Album art image size fixed to 60x60px
+
+
 **Version 1.2.0**
 
 * Port scrobbler to Google Music Beta
