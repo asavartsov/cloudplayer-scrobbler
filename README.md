@@ -22,6 +22,11 @@ Install stable release from [Google Web Store](https://chrome.google.com/webstor
 Version History
 ===============
 
+**Version 1.1.4**
+
+* Adapted to the new zvooq's track object format
+* Zvooq fixed duplicating artists, unneded code removed
+
 **Version 1.1.1**
 
 * The plugin now fixes Zvooq's tracks with the artist name like "Pixies, Pixies" before scrobble it
