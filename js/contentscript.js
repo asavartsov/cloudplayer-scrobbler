@@ -110,16 +110,8 @@ ZvooqParser.prototype._get_song_title = function() {
  * @return Song artist
  */
 ZvooqParser.prototype._get_song_artist = function() {
-	if(this._track) {
-        // Zvooq.ru has many tracks with artist names like "Pixies, Pixies"
-        var name_split = this._track.artist.name.split(", ");
-
-        if(name_split.length == 2 && name_split[0] == name_split[1]) {
-            return name_split[0];
-        }
-        else {
-            return this._track.artist.name;
-        }
+    if(this._track) {
+        return this._track.artist._artistsData[this._track.artist._zids[0]].name;
     }
 
     return null;
