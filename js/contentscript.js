@@ -21,6 +21,7 @@ function Player(parser) {
         album: parser._get_song_album(),
         cover: parser._get_song_cover()
     };
+    this.yandex_scrobbling_on = parser._get_yandex_scrobbling_on();
 }
 
 /**
@@ -36,6 +37,10 @@ YandexParser = function() {
 	this._status = injectScript(function() {
     	return Mu.Player.real.getCurrentTrackStatus();
     });	
+    
+    this._yandex_scrobbling_on = injectScript(function() {
+    	return Mu.Meta.lastfm_active;
+    });
 };
 
 YandexParser._album_name = "";
@@ -129,6 +134,10 @@ YandexParser.prototype._get_song_album = function() {
 	
     return YandexParser._album_name;
 };
+
+YandexParser.prototype._get_yandex_scrobbling_on = function() {
+    return this._yandex_scrobbling_on;
+}
 
 var port = chrome.extension.connect({name: "yandexplayer"});
 

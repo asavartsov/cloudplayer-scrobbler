@@ -55,7 +55,7 @@ function port_on_message(message) {
     // Current player state
     var _p = message;
     
-    if(!SETTINGS.scrobble) {
+    if(!SETTINGS.scrobble || _p.yandex_scrobbling_on) {
         chrome.browserAction.setIcon({
             'path': SETTINGS.scrobbling_stopped_icon });
 
