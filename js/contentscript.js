@@ -30,16 +30,16 @@ function Player(parser) {
  * @returns {YandexParser}
  */
 YandexParser = function() {
-	this._track = injectScript(function() {
-    	return Mu.Player.getCurrentTrack();
+    this._track = injectScript(function() {
+        return (function() {return Mu.Player.currentTrack.getTrack();})();
     });
 	
-	this._status = injectScript(function() {
-    	return Mu.Player.real.getCurrentTrackStatus();
+    this._status = injectScript(function() {
+        return (function() {return Mu.Player.real.getCurrentTrackStatus();})();
     });	
     
     this._yandex_scrobbling_on = injectScript(function() {
-    	return Mu.Meta.lastfm_active;
+        return (function() {return Mu.Meta.lastfm_active;})();
     });
 };
 
