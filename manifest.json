@@ -1,36 +1,51 @@
 {
-    "name": "Last.fm scrobbler for Google Music Beta",
-    "version": "1.2.2",
-    "description": "Scrobbles songs from Google Music Player to Last.fm",
-    "icons": {
-        "16": "img/icon16.png",
-        "48": "img/icon48.png",
-        "64": "img/icon64.png",
-        "128": "img/icon128.png"
-    },
-    "browser_action": {
-        "default_icon": "img/main-icon.png",
-        "popup": "popup.html"
-    },
-    "permissions": [
-        "http://ws.audioscrobbler.com/",
-        "http://music.google.com/",
-        "https://music.google.com/"
-    ],
-    "background_page" : "background.html",
-    "content_scripts": [
-        {
-            "js": ["js/inject.js"],
-            "matches": ["http://music.google.com/music/listen*", "https://music.google.com/music/listen*"]
-        },
-		{
-            "js": ["js/contentscript.js"],
-            "matches": ["http://music.google.com/music/listen*", "https://music.google.com/music/listen*"]
-        },
-        {
-            "js": ["js/jquery-1.5.1.min.js"],
-            "matches": ["http://music.google.com/music/listen*", "https://music.google.com/music/listen*"],
-            "run_at": "document_start"
-        }
-    ]
+   "permissions" : [
+      "http://ws.audioscrobbler.com/",
+      "http://play.google.com/",
+      "https://play.google.com/"
+   ],
+   "version" : "1.2.2",
+   "background_page" : "background.html",
+   "name" : "Last.fm scrobbler for Google Play",
+   "icons" : {
+      "128" : "img/icon128.png",
+      "64" : "img/icon64.png",
+      "16" : "img/icon16.png",
+      "48" : "img/icon48.png"
+   },
+   "description" : "Scrobbles songs from Google Music Player to Last.fm",
+   "browser_action" : {
+      "popup" : "popup.html",
+      "default_icon" : "img/main-icon.png"
+   },
+   "content_scripts" : [
+      {
+         "matches" : [
+            "http://play.google.com/music/listen*",
+            "https://play.google.com/music/listen*"
+         ],
+         "js" : [
+            "js/inject.js"
+         ]
+      },
+      {
+         "matches" : [
+            "http://play.google.com/music/listen*",
+            "https://play.google.com/music/listen*"
+         ],
+         "js" : [
+            "js/contentscript.js"
+         ]
+      },
+      {
+         "run_at" : "document_start",
+         "matches" : [
+            "http://play.google.com/music/listen*",
+            "https://play.google.com/music/listen*"
+         ],
+         "js" : [
+            "js/jquery-1.5.1.min.js"
+         ]
+      }
+   ]
 }
