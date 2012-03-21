@@ -4,7 +4,7 @@
       "http://play.google.com/",
       "https://play.google.com/"
    ],
-   "version" : "1.2.3",
+   "version" : "1.2.4",
    "background_page" : "background.html",
    "name" : "Last.fm scrobbler for Google Play",
    "icons" : {
