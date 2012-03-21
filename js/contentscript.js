@@ -47,7 +47,7 @@ GoogleMusicParser.prototype._get_has_song = function() {
  * @return true if song is playing, false if song is paused
  */
 GoogleMusicParser.prototype._get_is_playing = function() {
-    return ($("#playPause").attr("title") == "Pause");
+    return ($("#playPause").attr("aria-pressed") == "true");
 };
 
 /**
