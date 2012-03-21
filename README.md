@@ -20,6 +20,14 @@ Install stable release from [Google Web Store](https://chrome.google.com/webstor
 Version History
 ===============
 
+**Version 1.2.4**
+
+* Spanish fixes
+
+**Version 1.2.3**
+
+* Google Play
+
 **Version 1.2.2**
 
 * Timestamp fixes
@@ -39,6 +47,12 @@ Authors
 [Alexey Savartsov](https://github.com/asavartsov), asavartsov@gmail.com
 
 Google Music support by [Brad Lambeth](https://github.com/bradlambeth), brad@lambeth.us
+
+Thanks to contributors:
+
+[Matt Henkel](https://github.com/guildencrantz)
+
+[Caleb Brown](https://github.com/kayluhb)
 
 License
 =======
