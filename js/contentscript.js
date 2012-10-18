@@ -34,7 +34,8 @@ AmazonParser = function() {
     });
 	
 	this._time = injectScript(function() {
-    	return amznMusic.widgets.player.getCurrentTime();
+		var position = amznMusic.widgets.playerNative.getCurrentTime() + amznMusic.widgets.playerFlash.getCurrentTime();
+		return position;
     });	
 };
 
