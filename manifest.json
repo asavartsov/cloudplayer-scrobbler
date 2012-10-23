@@ -1,5 +1,6 @@
 {
-    "name": "Amazon Cloud Player scrobbler",
+    "manifest_version": 2,
+	"name": "Amazon Cloud Player scrobbler",
     "version": "1.1.0",
     "description": "Scrobbles songs from Amazon Cloud Player to Last.fm",
     "icons": {
@@ -10,13 +11,13 @@
     },
     "browser_action": {
         "default_icon": "img/main-icon.png",
-        "popup": "popup.html"
+        "default_popup": "popup.html"
     },
     "permissions": [
         "http://ws.audioscrobbler.com/",
         "https://www.amazon.com/"
     ],
-    "background_page" : "background.html",
+    "background" : {"scripts": ["js/md5.js", "js/lastfm.js", "js/jquery-1.7.min.js", "js/background.js"]},
     "content_scripts": [
         {
             "js": ["js/inject.js"],
