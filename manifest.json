@@ -15,21 +15,22 @@
     },
     "permissions": [
         "http://ws.audioscrobbler.com/",
-        "https://www.amazon.com/"
+        "https://www.amazon.com/",
+        "https://www.amazon.de/"
     ],
     "background" : {"scripts": ["js/md5.js", "js/lastfm.js", "js/jquery-1.7.min.js", "js/background.js"]},
     "content_scripts": [
         {
             "js": ["js/inject.js"],
-            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"]
+            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*","https://www.amazon.de/gp/dmusic/mp3/*"]
         },
 		{
             "js": ["js/contentscript.js"],
-            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"]
+            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*", "https://www.amazon.de/gp/dmusic/mp3/*"]
         },
         {
             "js": ["js/jquery-1.7.min.js"],
-            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*"],
+            "matches": ["https://www.amazon.com/gp/dmusic/mp3/*", "https://www.amazon.de/gp/dmusic/mp3/*"],
             "run_at": "document_start"
         }
     ]
