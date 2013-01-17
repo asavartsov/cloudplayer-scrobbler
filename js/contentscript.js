@@ -116,7 +116,12 @@ GoogleMusicParser.prototype._get_song_cover = function() {
  * @return Album name or null
  */
 GoogleMusicParser.prototype._get_song_album = function() {
-    return null;
+    var album = null;
+    var artist = $("#playerArtist div").text().toUpperCase();
+    var tab_text = $(".tab-text a")[0].innerText;
+    if(tab_text.indexOf(artist) != -1)
+        album = tab_text.replace(" - "+artist,"");
+    return album;
 };
 
 var port = chrome.extension.connect({name: "cloudplayer"});
