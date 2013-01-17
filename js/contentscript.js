@@ -116,7 +116,15 @@ GoogleMusicParser.prototype._get_song_cover = function() {
  * @return Album name or null
  */
 GoogleMusicParser.prototype._get_song_album = function() {
-    return null;
+    var album = null;
+    var delimiter = " - "
+    var artist = $("#playerArtist div").text().toUpperCase();
+    var tab_text = $(".tab-text a")[0].innerText;
+    var playing_cover = $("#playingAlbumArt").attr("src");
+    var page_cover = $(".albumViewImageLinkGroup img").eq(0).attr("src");
+    if(tab_text.indexOf(delimiter + artist) != -1 && playing_cover == page_cover)
+        album = tab_text.replace(delimiter + artist,"");
+    return album;
 };
 
 var port = chrome.extension.connect({name: "cloudplayer"});
