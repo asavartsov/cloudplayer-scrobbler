@@ -70,7 +70,7 @@ function port_on_message(message) {
             
             // Last.fm recommends to scrobble a song at least at 50%
             // TODO: Setting for 0.7?
-            var time_to_scrobble = _p.song.time * 0.7 - _p.song.position;
+            var time_to_scrobble = _p.song.time * 0.5 - _p.song.position;
             
             // Check for valid timings and for that the now playing status was reported at least once
             // This intended to fix an issue with invalid timings that Amazon accidentally reports on
