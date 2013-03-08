@@ -98,7 +98,7 @@ GoogleMusicParser.prototype._get_song_title = function() {
  * @return Song artist
  */
 GoogleMusicParser.prototype._get_song_artist = function() {
-    return $("#playerArtist div").text();
+    return $("#player-artist div").text();
 };
 
 /**
