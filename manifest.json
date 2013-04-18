@@ -8,7 +8,7 @@
    "manifest_version": 2,
    "background": {
     "page": "background.html",
-    "persistent": false
+    "persistent": true
    },
    "name" : "Last.fm scrobbler for Google Play",
    "icons" : {
