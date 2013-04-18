@@ -4,20 +4,20 @@
       "http://play.google.com/",
       "https://play.google.com/"
    ],
-   "version" : "1.2.4",
+   "version" : "1.2.7",
    "manifest_version": 2,
    "background": {
     "page": "background.html",
     "persistent": false
    },
-   "name" : "Last.fm scrobbler for Google Play",
+   "name" : "Google Play Scrobbler",
    "icons" : {
       "128" : "img/icon128.png",
       "64" : "img/icon64.png",
       "16" : "img/icon16.png",
       "48" : "img/icon48.png"
    },
-   "description" : "Scrobbles songs from Google Music Player to Last.fm",
+   "description" : "Scrobbles songs from Google Play to Last.fm",
    "browser_action" : {
       "default_popup" : "popup.html",
       "default_icon" : "img/main-icon.png"
