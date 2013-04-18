@@ -4,11 +4,11 @@
       "http://play.google.com/",
       "https://play.google.com/"
    ],
-   "version" : "1.2.7",
+   "version" : "1.2.8",
    "manifest_version": 2,
    "background": {
     "page": "background.html",
-    "persistent": false
+    "persistent": true
    },
    "name" : "Google Play Scrobbler",
    "icons" : {
