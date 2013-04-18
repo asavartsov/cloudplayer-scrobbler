@@ -4,7 +4,6 @@
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
  * Licensed under the MIT license
  */
-
 /* Background page */
 var bp = chrome.extension.getBackgroundPage();
 
@@ -56,7 +55,7 @@ function render_scrobble_link() {
     $("#scrobbling").html('<a></a>');
     $("#scrobbling a")
     .attr({
-        href: "#" 
+        href: "#"
     })
     .click(on_toggle_scrobble)
     .text(bp.SETTINGS.scrobble ? "Stop scrobbling" : "Resume scrobbling");
