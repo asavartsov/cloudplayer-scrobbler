@@ -15,7 +15,9 @@ var SETTINGS = {
     playing_icon: "img/main-icon-playing.png",
     paused_icon: "img/main-icon-paused.png",
     error_icon: "img/main-icon-error.png",
-    scrobbling_stopped_icon: "img/main-icon-scrobbling-stopped.png"
+    scrobbling_stopped_icon: "img/main-icon-scrobbling-stopped.png",
+	
+	scrobble_threshold: .70
 };
 
 var player = {}; // Previous player state
@@ -68,14 +70,9 @@ function port_on_message(message) {
             chrome.browserAction.setIcon({ 
                 'path': SETTINGS.playing_icon });
             
-            // Last.fm recommends to scrobble a song at least at 50%
-            // TODO: Setting for 0.7?
-            var time_to_scrobble = _p.song.time * 0.7 - _p.song.position;
+            var time_to_scrobble = _p.song.time * SETTINGS.scrobble_threshold - _p.song.position;
             
-            // Check for valid timings and for that the now playing status was reported at least once
-            // This intended to fix an issue with invalid timings that Amazon accidentally reports on
-            // song start
-            if(time_to_scrobble <= 0 && _p.song.position > 0 && _p.song.time > 0) {
+            if(time_to_scrobble <= 0) {
                 // TODO: Another way?
                 // if(scrobbled && _p.song.position > player.song.position)
 
