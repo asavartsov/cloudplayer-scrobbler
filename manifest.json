@@ -7,7 +7,7 @@
    "version" : "1.2.8",
    "manifest_version": 2,
    "background": {
-    "page": "background.html",
+    "page": "html/background.html",
     "persistent": true
    },
    "name" : "Google Play Scrobbler",
@@ -19,33 +19,23 @@
    },
    "description" : "Scrobbles songs from Google Play to Last.fm",
    "browser_action" : {
-      "default_popup" : "popup.html",
+      "default_popup" : "html/popup.html",
       "default_icon" : "img/main-icon.png"
    },
    "content_scripts" : [
       {
          "matches" : [
-            "http://play.google.com/music/listen*",
-            "https://play.google.com/music/listen*"
+            "*://play.google.com/music/listen*"
          ],
          "js" : [
-            "js/inject.js"
-         ]
-      },
-      {
-         "matches" : [
-            "http://play.google.com/music/listen*",
-            "https://play.google.com/music/listen*"
-         ],
-         "js" : [
+            "js/inject.js",
             "js/contentscript.js"
          ]
       },
       {
          "run_at" : "document_start",
          "matches" : [
-            "http://play.google.com/music/listen*",
-            "https://play.google.com/music/listen*"
+            "*://play.google.com/music/listen*"
          ],
          "js" : [
             "js/jquery-1.7.min.js"

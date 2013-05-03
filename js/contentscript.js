@@ -107,7 +107,10 @@ GoogleMusicParser.prototype._get_song_artist = function() {
  * @return Image URL or default artwork
  */
 GoogleMusicParser.prototype._get_song_cover = function() {
-    return ("http:" + $("#playingAlbumArt").attr("src"));
+    var albumImg = $("#playingAlbumArt").attr("src");
+    if (albumImg)
+        return ("http:" + albumImg);
+    return null;
 };
 
 /**
@@ -124,4 +127,4 @@ var port = chrome.extension.connect({name: "cloudplayer"});
 window.setInterval(function() {
     port.postMessage(new Player(new GoogleMusicParser()));
 }, 
-10000);	
+5000);	

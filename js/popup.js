@@ -22,9 +22,10 @@ $(document).ready(function() {
 function render_song() {
     if(bp.player.song)
     {
+        console.log(bp.player.song.cover);
         $("#artist").text(bp.player.song.artist);
         $("#track").text(bp.player.song.title);
-        $("#cover").attr({ src: bp.player.song.cover || "img/defaultcover.png", width: "60", height: "60" });
+        $("#cover").attr({ src: bp.player.song.cover || "../img/defaultcover.png", width: "60", height: "60" });
         
         if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
             render_love_button();
@@ -35,16 +36,17 @@ function render_song() {
     }
     else {
         $("#song").addClass("nosong");
-        $("#artist").text("Nothing is playing");
-        $("#track").html('<a></a>');
-        $("#track a")
-        .attr({ 
-            href: "http://play.google.com/music/listen",
-            target: "_blank"
-        })
-        .text("Go to Google Music");
-        $("#cover ").attr({ src: "img/defaultcover.png" });
+        $("#artist").text("");
+        $("#track").html('');
+        $("#cover ").attr({ src: "../img/defaultcover.png" });
         $("#lastfm-buttons").hide();
+    }
+    // check if we need to marquee
+    var songElem = $("#now-playing");
+    if (songElem.get(0).scrollWidth > songElem.width()) {
+        songElem.attr('scrollamount', '1');
+    } else {
+        songElem.attr('scrollamount', '0');
     }
 }
 
@@ -98,7 +100,7 @@ function render_auth_link() {
  * Renders the love button
  */
 function render_love_button() {    
-    $("#love-button").html('<img src="img/ajax-loader.gif">');
+    $("#love-button").html('<img src="../img/ajax-loader.gif">');
     
     bp.lastfm_api.is_track_loved(bp.player.song.title,
             bp.player.song.artist, 
@@ -166,7 +168,7 @@ function on_love() {
             }
         });
 
-    $("#love-button").html('<img src="img/ajax-loader.gif">');
+    $("#love-button").html('<img src="../img/ajax-loader.gif">');
 }
 
 /**
@@ -190,5 +192,5 @@ function on_unlove() {
             }
         });
 
-    $("#love-button").html('<img src="img/ajax-loader.gif">');
+    $("#love-button").html('<img src="../img/ajax-loader.gif">');
 }

@@ -1,0 +1,35 @@
+<!--
+ popup.html
+ Popup page
+ Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
+ Licensed under the MIT license
+-->
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/popup.css">
+    
+    <script src="../js/jquery-1.7.min.js"></script>
+    <script src="../js/md5.js"></script>
+    <script src="../js/lastfm.js"></script>
+    <script src="../js/popup.js"></script>
+</head>
+<body>
+    <div id="main">
+        <div id="cover-box">
+            <a href="http://play.google.com/music/listen" target="_blank"><img id="cover"></a>
+        </div>
+        <div id="song">
+            <marquee id="now-playing" scrollamount="0" behavior="alternate" direction="left">
+                <span id="artist"></span>&nbsp;-&nbsp;
+                <span id="track"></span>
+            </marquee>
+            <div id="lastfm-buttons">
+                <span id="love-button"></span>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="bottom">
+        <div id="scrobbling"></div>
+        <div id="lastfm-profile"></div>
+    </div>
+</body>
