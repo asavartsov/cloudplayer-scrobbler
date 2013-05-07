@@ -64,18 +64,13 @@ function port_on_message(message) {
         player = _p;
         return;
     }
-    
     if(_p.has_song) {
         if(_p.is_playing) {
             chrome.browserAction.setIcon({ 
                 'path': SETTINGS.playing_icon });
             
             var time_to_scrobble = _p.song.time * SETTINGS.scrobble_threshold - _p.song.position;
-            
             if(time_to_scrobble <= 0) {
-                // TODO: Another way?
-                // if(scrobbled && _p.song.position > player.song.position)
-
                 if(now_playing_sent && !scrobbled) {
                     // Scrobble this song
                     lastfm_api.scrobble(_p.song.title,
@@ -89,7 +84,8 @@ function port_on_message(message) {
                                 scrobbled = true;
                                 now_playing_sent = false;
                             }
-                            else {
+                            else 
+                            {
                                 if(response.error == 9) {
                                     // Session expired
                                     clear_session();
@@ -101,7 +97,8 @@ function port_on_message(message) {
                         });
                 }
             }
-            else {
+            else 
+            {
                 // Set now playing status
                 // TODO: Maybe there is no need to do it so frequent?
                 lastfm_api.now_playing(_p.song.title,
@@ -118,13 +115,15 @@ function port_on_message(message) {
             // Save player state
             player = _p; // TODO: Save here?
         }
-        else {
+        else 
+        {
             // The player is paused
             chrome.browserAction.setIcon({ 
                 'path': SETTINGS.paused_icon });
         }
     }
-    else {
+    else 
+    {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
         player = {};
         scrobbled = false;

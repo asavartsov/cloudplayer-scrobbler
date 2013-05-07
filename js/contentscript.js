@@ -58,12 +58,15 @@ GoogleMusicParser.prototype._get_is_playing = function() {
 GoogleMusicParser.prototype._get_song_position = function() {
     var _time = $("#currentTime").text();
     _time = $.trim(_time).split(':');
-    if(_time.length == 2) {
-        return (parseInt(_time[0], 10) * 60 + parseInt(_time[1], 10));
+    if(_time.length == 2) 
+    {
+        return (parseInt(_time[0]) * 60 + parseInt(_time[1]));
     }
-    else {
-        return 0;
+    else if (_time.length == 3) 
+    {
+        return (parseInt(_time[0]) * 3600 + parseInt(_time[1]) * 60 + parseInt(_time[2]));
     }
+    return null;
 };
 
 /**
@@ -75,11 +78,13 @@ GoogleMusicParser.prototype._get_song_time = function() {
     var _time = $("#duration").text();
     _time = $.trim(_time).split(':');
     if(_time.length == 2) {
-        return (parseInt(_time[0], 10) * 60 + parseInt(_time[1], 10));
+        return (parseInt(_time[0]) * 60 + parseInt(_time[1]));
+    } 
+    else if (_time.length == 3) 
+    {
+        return (parseInt(_time[0]) * 3600 + parseInt(_time[1]) * 60 + parseInt(_time[2]));
     }
-    else {
-        return 0;
-    }
+    return null;
 };
 
 /**
