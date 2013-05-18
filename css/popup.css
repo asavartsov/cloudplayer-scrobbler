@@ -29,12 +29,18 @@ a:hover {
 
 #cover-box {
     float: left;
+    border-color: #FFC200;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
 }
 
 #cover {
     border: none;
     width: 60px;
     height: 60px;
+    cursor: hand; 
+    cursor: pointer;
 }
 
 #song.nosong {

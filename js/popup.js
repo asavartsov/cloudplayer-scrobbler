@@ -9,11 +9,43 @@ var bp = chrome.extension.getBackgroundPage();
 
 /* Render popup when DOM is ready */
 $(document).ready(function() {
+    set_play_link();
     render_scrobble_link();
     render_song();
     render_auth_link();
 });
 
+function FindPlayTab(callback) {
+    chrome.windows.getAll(
+        {populate: true}, 
+        function(windows) {
+            var pattern = 'https?\:\/\/play\.google\.com\/music\/listen.*';
+            for (var window = 0; window < windows.length; window++) {
+                for (var i = 0; i < windows[window].tabs.length; i++) {
+                    if (windows[window].tabs[i].url.match(pattern)) {
+                        callback(windows[window].tabs[i].id)
+                        return;
+                    }
+                }
+            }
+            callback(null);
+    });
+}
+
+function openPlayTab() {
+    FindPlayTab(function(tab_id) {
+        if (tab_id) {
+            chrome.tabs.update(tab_id, {selected: true});
+        } else {
+            chrome.tabs.create({url: 'https://play.google.com/music/listen',
+                              selected: true});
+        }
+    });
+}
+
+function set_play_link() {
+    $("#cover").click(openPlayTab);
+}
 /* Render functions */
 
 /**
