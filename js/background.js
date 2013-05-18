@@ -21,7 +21,6 @@ var SETTINGS = {
 };
 
 var player = {}; // Previous player state
-var now_playing_sent = false;
 var scrobbled = false;
 var lastfm_api = new LastFM(SETTINGS.api_key, SETTINGS.api_secret);
 
@@ -43,11 +42,11 @@ chrome.extension.onConnect.addListener(port_on_connect);
  * Content script has connected to the extension
  */
 function port_on_connect(port) {
-    console.assert(port.name == "cloudplayer"); 
-
-    // Connect another port event handlers
-    port.onMessage.addListener(port_on_message);
-    port.onDisconnect.addListener(port_on_disconnect);
+    if (port.name == "cloudplayer")
+    {
+        port.onMessage.addListener(port_on_message);
+        port.onDisconnect.addListener(port_on_disconnect);
+    }
 }
  
  /**
@@ -71,7 +70,7 @@ function port_on_message(message) {
             
             var time_to_scrobble = _p.song.time * SETTINGS.scrobble_threshold - _p.song.position;
             if(time_to_scrobble <= 0) {
-                if(now_playing_sent && !scrobbled) {
+                if(!scrobbled) {
                     // Scrobble this song
                     lastfm_api.scrobble(_p.song.title,
                         /* Song start time */
@@ -80,9 +79,7 @@ function port_on_message(message) {
                         _p.song.album,
                         function(response) {
                             if(!response.error) {
-                            	// Song was scrobled, waiting for the next song
                                 scrobbled = true;
-                                now_playing_sent = false;
                             }
                             else 
                             {
@@ -99,19 +96,17 @@ function port_on_message(message) {
             }
             else 
             {
-                // Set now playing status
-                // TODO: Maybe there is no need to do it so frequent?
-                lastfm_api.now_playing(_p.song.title,
-                    _p.song.artist,
-                    _p.song.album,
-                    function(response) {
-                		// TODO: 
-                    });
-                
-                now_playing_sent = true;
                 scrobbled = false;
             }
-             
+            
+            lastfm_api.now_playing(_p.song.title,
+                _p.song.artist,
+                _p.song.album,
+                function(response) {
+                   // TODO: 
+                }
+            );
+                
             // Save player state
             player = _p; // TODO: Save here?
         }
@@ -127,17 +122,15 @@ function port_on_message(message) {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
         player = {};
         scrobbled = false;
-        now_playing_sent = false;
     }
 }
  
- /**
-  * Content script has disconnected
-  */
+/**
+* Content script has disconnected
+*/
 function port_on_disconnect() {
     player = {}; // Clear player state
     scrobbled = false;
-    now_playing_sent = false;
     chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
 }
 

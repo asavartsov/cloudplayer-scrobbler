@@ -22,11 +22,10 @@ $(document).ready(function() {
 function render_song() {
     if(bp.player.song)
     {
-        console.log(bp.player.song.cover);
         $("#artist").text(bp.player.song.artist);
         $("#track").text(bp.player.song.title);
-        $("#cover").attr({ src: bp.player.song.cover || "../img/defaultcover.png", width: "60", height: "60" });
-        
+        $("#cover").attr({ src: bp.player.song.cover || "../img/defaultcover.png",
+            alt:bp.player.song.album});
         if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
             render_love_button();
         }
