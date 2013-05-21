@@ -59,6 +59,12 @@ a:hover {
     font-weight: bold;
 }
 
+#album {
+    font-style: italic;
+    color: #999;
+    font-size: 80%;
+}
+
 #track {
     margin-top: 6px;
     font-size: 14px;
