@@ -187,7 +187,8 @@ LastFM.prototype.is_track_loved = function(track, artist, callback) {
         if(!result.error && result.track) {
             callback(result.track.userloved == 1);
         }
-        else {
+        else 
+        {
             callback(false);
         }
     });
@@ -267,6 +268,8 @@ LastFM.prototype._xhr = function(method, params, callback) {
     };
 
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xhr.setRequestHeader("Pragma", "no-cache"); // The cache is a lie!
+    // The cache is a lie!
+    xhr.setRequestHeader("If-Modified-Since", new Date(0));
+    xhr.setRequestHeader("Pragma", "no-cache");
     xhr.send(_data || null);
 };

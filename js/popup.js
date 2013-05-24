@@ -131,21 +131,21 @@ function render_auth_link() {
 /**
  * Renders the love button
  */
-function render_love_button() {    
+function render_love_button() {
     $("#love-button").html('<img src="../img/ajax-loader.gif">');
     
     bp.lastfm_api.is_track_loved(bp.player.song.title,
             bp.player.song.artist, 
             function(result) {
                 $("#love-button").html('<a href="#"></a>');
-        
                 if(result) {
                     $("#love-button a").attr({ title: "Unlove this song"})
                     .click(on_unlove)
                     .addClass("loved");
             
                 }
-                else {
+                else 
+                {
                     $("#love-button a").attr({ title: "Love this song" })
                     .click(on_love)
                     .addClass("notloved");
