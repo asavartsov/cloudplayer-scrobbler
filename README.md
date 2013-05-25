@@ -6,43 +6,19 @@ Google Chrome plugin for scrobbling songs from Google Music Player to Last.fm
 Features
 ========
 
-* Scrobbles now playing songs at 70% played time
 * Song information in popup window
-* Cloud Player state in icon
-* Love/unlove now playing song
-* Option to turn scrobbling off if you do not want to send scrobbles
+* Love/unlove tracks
+* Toggle scrobbling
 
 Installation
 ============
 
-Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/lhlmaloocaogaldcbpimhlbimmhaonep)
-
-Version History
-===============
-
-**Version 1.2.4**
-
-* Spanish fixes
-
-**Version 1.2.3**
-
-* Google Play
-
-**Version 1.2.2**
-
-* Timestamp fixes
-* HTTPS support
-
-**Version 1.2.1**
-
-* Album art image size fixed to 60x60px
-
-**Version 1.2.0**
-
-* Port scrobbler to Google Music Beta
+Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/google-play-scrobbler/llpepekkleeoeiloijhcafgpjdnhhcbl)
 
 Authors
 =======
+
+[Andrew Nguyen](https://github.com/newgiin)
 
 [Alexey Savartsov](https://github.com/asavartsov), asavartsov@gmail.com
 
