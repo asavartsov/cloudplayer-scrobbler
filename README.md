@@ -1,4 +1,4 @@
-Google Music Player scrobbler
+Google Play Last.fm scrobbler
 -----------------------------
 
 Google Chrome plugin for scrobbling songs from Google Music Player to Last.fm
