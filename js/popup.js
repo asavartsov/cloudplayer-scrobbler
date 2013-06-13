@@ -75,7 +75,7 @@ function render_song() {
     }
     // check if we need to marquee
     var songElem = $("#now-playing");
-    if (songElem.get(0).scrollWidth > songElem.width()) {
+    if (songElem.get(0).scrollWidth > songElem.width() + 10) {
         songElem.attr('scrollamount', '1');
     } else {
         songElem.attr('scrollamount', '0');
