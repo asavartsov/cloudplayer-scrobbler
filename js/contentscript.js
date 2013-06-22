@@ -38,7 +38,7 @@ GoogleMusicParser = function() {
  * @return true if some song is loaded, otherwise false
  */
 GoogleMusicParser.prototype._get_has_song = function() {
-    return $("#playerSongInfo div").hasClass("goog-inline-block goog-flat-button");
+    return $("#playerSongInfo div").hasClass("now-playing-menu-wrapper");
 };
 
 /**
@@ -47,7 +47,7 @@ GoogleMusicParser.prototype._get_has_song = function() {
  * @return true if song is playing, false if song is paused
  */
 GoogleMusicParser.prototype._get_is_playing = function() {
-    return ($("#playPause").attr("aria-pressed") == "true");
+    return $(".player-middle button[data-id='play-pause']").hasClass("playing");
 };
 
 /**
@@ -94,7 +94,7 @@ GoogleMusicParser.prototype._get_song_time = function() {
  */
 GoogleMusicParser.prototype._get_song_title = function() {
     // the text inside the div located inside element with id="playerSongTitle"
-    return $("#playerSongTitle div").text();
+    return $("#playerSongTitle").text();
 };
 
 /**
