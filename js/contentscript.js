@@ -56,7 +56,7 @@ GoogleMusicParser.prototype._get_is_playing = function() {
  * @return Playing position in seconds
  */
 GoogleMusicParser.prototype._get_song_position = function() {
-    var _time = $("#currentTime").text();
+    var _time = $("#time_container_current").text();
     _time = $.trim(_time).split(':');
     if(_time.length == 2) 
     {
@@ -75,7 +75,7 @@ GoogleMusicParser.prototype._get_song_position = function() {
  * @return Song length in seconds
  */
 GoogleMusicParser.prototype._get_song_time = function() {
-    var _time = $("#duration").text();
+    var _time = $("#time_container_duration").text();
     _time = $.trim(_time).split(':');
     if(_time.length == 2) {
         return (parseInt(_time[0]) * 60 + parseInt(_time[1]));
