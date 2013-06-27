@@ -32,17 +32,28 @@ function open_play_tab() {
             if (tab) {
                 chrome.tabs.update(tab.id, {selected: true});
             } else {
-                chrome.tabs.create({url: 'https://play.google.com/music/listen',
-                                  selected: true});
+                chrome.tabs.create({url: 
+                    'https://play.google.com/music/listen',
+                     selected: true});
             }
         }
     );
 }
 
 function toggle_play() {
+    var has_song = bp.player.has_song;
     find_play_tab(
         function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "toggle_play"}, toggle_play_btn);           
+            chrome.tabs.sendMessage(tab.id, {cmd: "toggle_play"}, 
+                function() {
+                    if (has_song) {
+                        toggle_play_btn();
+                    } else {
+                        update_song_info();
+                        toggle_play_btn();
+                    }
+                }
+            );           
         }
     );
 }
@@ -50,7 +61,8 @@ function toggle_play() {
 function next_song() {
     find_play_tab(
         function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "next_song"}, update_song_info);           
+            chrome.tabs.sendMessage(tab.id, {cmd: "next_song"}, 
+                update_song_info);           
         }
     );
 }
@@ -59,19 +71,12 @@ function set_play_link() {
     $("#cover").click(open_play_tab);
 }
 /* Render functions */
-/*
-* TODO
-* - Update song info when restarting playlist
-* - Reset marquee position when changing songs
-* - Get real button icons
-* - Cache player elements in a single place in parser.
-*/
-function update_song_info(player) {
-    $("#artist").text(player.song.artist);
-    $("#track").text(player.song.title);
-    $("#cover").attr({ src: player.song.cover || "../img/defaultcover.png",
-        alt:player.song.album});
-    $("#album").text(player.song.album);
+function update_song_info() {
+    $("#artist").text(bp.player.song.artist);
+    $("#track").text(bp.player.song.title);
+    $("#cover").attr({ src: bp.player.song.cover || "../img/defaultcover.png",
+        alt:bp.player.song.album});
+    $("#album").text(bp.player.song.album);
     // check if we need to marquee
     var songElem = $("#now-playing");
     if (songElem.get(0).scrollWidth > songElem.width() + 10) {
@@ -82,15 +87,18 @@ function update_song_info(player) {
     
     if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
         render_love_button();
-        toggle_play_btn(player.is_playing);
+        toggle_play_btn();
     }
 }
 
-function toggle_play_btn(is_playing) {
-    if (is_playing) {
-        $("#play-pause-btn").text("Pause");
+function toggle_play_btn() {
+    var play_btn = $("#play-pause-btn");
+    if (bp.player.is_playing) {
+        play_btn.removeClass();
+        play_btn.addClass("pause");
     } else {
-        $("#play-pause-btn").text("Play");
+        play_btn.removeClass();
+        play_btn.addClass("play");
     }
 }
 
@@ -100,7 +108,7 @@ function toggle_play_btn(is_playing) {
 function render_song() {
     if(bp.player.has_song)
     {
-        update_song_info(bp.player);
+        update_song_info();
         
         if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
        	    $("#play-pause-btn").click(toggle_play);

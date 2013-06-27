@@ -117,6 +117,30 @@ a.notloved {
     background-position: 0 -16px;
 }
 
+a.play, a.pause {
+    display: inline-block;
+    width: 16px;
+    height: 18;
+    background-image: url('../img/play_pause.png');
+    background-repeat: no-repeat;
+}
+
+a.play {
+    background-position: 0 0;
+}
+
+a.pause {
+    background-position: 0 -18px;
+}
+
+#next-btn {
+    display: inline-block;
+    width: 25px;
+    height: 18px;
+    background-image: url('../img/next.png');
+    background-repeat: no-repeat;
+}
+
 .clear {
     clear: both;
 }
