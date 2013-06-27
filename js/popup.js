@@ -15,52 +15,96 @@ $(document).ready(function() {
     render_auth_link();
 });
 
-function FindPlayTab(callback) {
-    chrome.windows.getAll(
-        {populate: true}, 
-        function(windows) {
-            var pattern = 'https?\:\/\/play\.google\.com\/music\/listen.*';
-            for (var window = 0; window < windows.length; window++) {
-                for (var i = 0; i < windows[window].tabs.length; i++) {
-                    if (windows[window].tabs[i].url.match(pattern)) {
-                        callback(windows[window].tabs[i].id)
-                        return;
-                    }
-                }
+function find_play_tab(callback) {
+    chrome.tabs.query({url: '*://play.google.com/music/listen*'},
+        function(tabs) {
+            if (tabs.length > 0) {
+                callback(tabs[0]);
+            } else {
+                callback(null);
             }
-            callback(null);
-    });
+        });
 }
 
-function openPlayTab() {
-    FindPlayTab(function(tab_id) {
-        if (tab_id) {
-            chrome.tabs.update(tab_id, {selected: true});
-        } else {
-            chrome.tabs.create({url: 'https://play.google.com/music/listen',
-                              selected: true});
+function open_play_tab() {
+    find_play_tab(
+        function(tab) {
+            if (tab) {
+                chrome.tabs.update(tab.id, {selected: true});
+            } else {
+                chrome.tabs.create({url: 'https://play.google.com/music/listen',
+                                  selected: true});
+            }
         }
-    });
+    );
+}
+
+function toggle_play() {
+    find_play_tab(
+        function(tab) {
+            chrome.tabs.sendMessage(tab.id, {cmd: "toggle_play"}, toggle_play_btn);           
+        }
+    );
+}
+
+function next_song() {
+    find_play_tab(
+        function(tab) {
+            chrome.tabs.sendMessage(tab.id, {cmd: "next_song"}, update_song_info);           
+        }
+    );
 }
 
 function set_play_link() {
-    $("#cover").click(openPlayTab);
+    $("#cover").click(open_play_tab);
 }
 /* Render functions */
+/*
+* TODO
+* - Update song info when restarting playlist
+* - Reset marquee position when changing songs
+* - Get real button icons
+* - Cache player elements in a single place in parser.
+*/
+function update_song_info(player) {
+    $("#artist").text(player.song.artist);
+    $("#track").text(player.song.title);
+    $("#cover").attr({ src: player.song.cover || "../img/defaultcover.png",
+        alt:player.song.album});
+    $("#album").text(player.song.album);
+    // check if we need to marquee
+    var songElem = $("#now-playing");
+    if (songElem.get(0).scrollWidth > songElem.width() + 10) {
+        songElem.attr('scrollamount', '1');
+    } else {
+        songElem.attr('scrollamount', '0');
+    }
+    
+    if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
+        render_love_button();
+        toggle_play_btn(player.is_playing);
+    }
+}
+
+function toggle_play_btn(is_playing) {
+    if (is_playing) {
+        $("#play-pause-btn").text("Pause");
+    } else {
+        $("#play-pause-btn").text("Play");
+    }
+}
 
 /**
  * Renders current song details
  */
 function render_song() {
-    if(bp.player.song)
+    if(bp.player.has_song)
     {
-        $("#artist").text(bp.player.song.artist);
-        $("#track").text(bp.player.song.title);
-        $("#cover").attr({ src: bp.player.song.cover || "../img/defaultcover.png",
-            alt:bp.player.song.album});
-        $("#album").text(bp.player.song.album);
+        update_song_info(bp.player);
+        
         if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
-            render_love_button();
+       	    $("#play-pause-btn").click(toggle_play);
+       	    $("#next-btn").click(next_song);
         }
         else {
             $("#lastfm-buttons").hide();
@@ -72,13 +116,6 @@ function render_song() {
         $("#track").html('');
         $("#cover ").attr({ src: "../img/defaultcover.png" });
         $("#lastfm-buttons").hide();
-    }
-    // check if we need to marquee
-    var songElem = $("#now-playing");
-    if (songElem.get(0).scrollWidth > songElem.width() + 10) {
-        songElem.attr('scrollamount', '1');
-    } else {
-        songElem.attr('scrollamount', '0');
     }
 }
 

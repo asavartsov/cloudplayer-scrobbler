@@ -47,9 +47,12 @@ GoogleMusicParser.prototype._get_has_song = function() {
  * @return true if song is playing, false if song is paused
  */
 GoogleMusicParser.prototype._get_is_playing = function() {
-    return $(".player-middle button[data-id='play-pause']").hasClass("playing");
+    return is_playing();
 };
 
+function is_playing() {
+    return $(".player-middle button[data-id='play-pause']").hasClass("playing");
+}
 /**
  * Get current song playing position
  *
@@ -133,3 +136,23 @@ window.setInterval(function() {
     port.postMessage(new Player(new GoogleMusicParser()));
 }, 
 5000);	
+
+
+chrome.extension.onMessage.addListener(toggle_play);
+chrome.extension.onMessage.addListener(next_song);
+
+function toggle_play(request, sndr, callback) {
+    if (request.cmd == "toggle_play") {
+        $(".player-middle button[data-id='play-pause']").click();
+        port.postMessage(new Player(new GoogleMusicParser()));
+        callback(is_playing());
+    }
+}
+
+function next_song(request, sndr, callback) {
+    if (request.cmd == "next_song") {
+        $(".player-middle button[data-id='forward']").click();
+        port.postMessage(new Player(new GoogleMusicParser()));
+        callback(new Player(new GoogleMusicParser()));
+    }
+}
