@@ -55,16 +55,17 @@ function port_on_connect(port) {
 function port_on_message(message) {
     // Current player state
     var _p = message;
+
+    // Save player state
+    player = _p;    
     
     if(!SETTINGS.scrobble) {
         chrome.browserAction.setIcon({
             'path': SETTINGS.scrobbling_stopped_icon });
 
-        player = _p;
         return;
     }
-    // Save player state
-    player = _p;
+
     if(_p.has_song) {
         if(_p.is_playing) {
             chrome.browserAction.setIcon({ 
