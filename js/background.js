@@ -63,6 +63,8 @@ function port_on_message(message) {
         player = _p;
         return;
     }
+    // Save player state
+    player = _p;
     if(_p.has_song) {
         if(_p.is_playing) {
             chrome.browserAction.setIcon({ 
@@ -106,9 +108,6 @@ function port_on_message(message) {
                    // TODO: 
                 }
             );
-                
-            // Save player state
-            player = _p; // TODO: Save here?
         }
         else 
         {
