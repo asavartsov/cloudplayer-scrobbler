@@ -120,7 +120,6 @@ function port_on_message(message) {
     else 
     {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
-        player = {};
         scrobbled = false;
     }
 }
