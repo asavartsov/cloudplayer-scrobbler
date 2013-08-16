@@ -10,8 +10,10 @@ var bp = chrome.extension.getBackgroundPage();
 /* Render popup when DOM is ready */
 $(document).ready(function() {
     set_play_link();
-    render_scrobble_link();
     render_song();
+    if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
+        render_scrobble_link();
+    }
     render_auth_link();
 });
 
@@ -40,33 +42,6 @@ function open_play_tab() {
     );
 }
 
-function toggle_play() {
-    var has_song = bp.player.has_song;
-    find_play_tab(
-        function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "toggle_play"}, 
-                function() {
-                    if (has_song) {
-                        toggle_play_btn();
-                    } else {
-                        update_song_info();
-                        toggle_play_btn();
-                    }
-                }
-            );           
-        }
-    );
-}
-
-function next_song() {
-    find_play_tab(
-        function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "next_song"}, 
-                update_song_info);           
-        }
-    );
-}
-
 function set_play_link() {
     $("#cover").click(open_play_tab);
 }
@@ -85,10 +60,10 @@ function update_song_info() {
         songElem.attr('scrollamount', '0');
     }
     
-    if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
+    if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
         render_love_button();
-        toggle_play_btn();
     }
+    toggle_play_btn();
 }
 
 function toggle_play_btn() {
@@ -109,12 +84,9 @@ function render_song() {
     if(bp.player.has_song)
     {
         update_song_info();
-        
-        if(bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
-       	    $("#play-pause-btn").click(toggle_play);
-       	    $("#next-btn").click(next_song);
-        }
-        else {
+        $("#play-pause-btn").click(toggle_play);
+        $("#next-btn").click(next_song);        
+        if(!(bp.lastfm_api.session.name && bp.lastfm_api.session.key)) {
             $("#lastfm-buttons").hide();
         }
     }
@@ -124,6 +96,7 @@ function render_song() {
         $("#track").html('');
         $("#cover ").attr({ src: "../img/defaultcover.png" });
         $("#lastfm-buttons").hide();
+        $("#player-controls").hide();
     }
 }
 
@@ -133,9 +106,7 @@ function render_song() {
 function render_scrobble_link() {
     $("#scrobbling").html('<a></a>');
     $("#scrobbling a")
-    .attr({
-        href: "#"
-    })
+    .attr("href", "#")
     .click(on_toggle_scrobble)
     .text(bp.SETTINGS.scrobble ? "Stop scrobbling" : "Resume scrobbling");
 }
@@ -144,8 +115,8 @@ function render_scrobble_link() {
  * Renders authentication/profile link
  */
 function render_auth_link() {
-    if(bp.lastfm_api.session.name && bp.lastfm_api.session.key)
-    {
+    if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
+        render_scrobble_link();
         $("#lastfm-profile").html("Logged in as " + "<a></a><a></a>");
         $("#lastfm-profile a:first")
         .attr({
@@ -161,13 +132,9 @@ function render_auth_link() {
         })
         .click(on_logout)
         .addClass("logout");
-    }
-    else {
+    } else {
         $("#lastfm-profile").html('<a></a>');
-        $("#lastfm-profile a")
-        .attr({
-            href: "#" 
-        })
+        $("#lastfm-profile a").attr("href", "#")
         .click(on_auth)
         .text("Connect to Last.fm");
     }
@@ -199,6 +166,33 @@ function render_love_button() {
 }
 
 /* Event handlers */
+
+function toggle_play() {
+    var has_song = bp.player.has_song;
+    find_play_tab(
+        function(tab) {
+            chrome.tabs.sendMessage(tab.id, {cmd: "toggle_play"}, 
+                function() {
+                    if (has_song) {
+                        toggle_play_btn();
+                    } else { // if pressing FF on previous song reached end of play queue
+                        update_song_info();
+                        toggle_play_btn();
+                    }
+                }
+            );           
+        }
+    );
+}
+
+function next_song() {
+    find_play_tab(
+        function(tab) {
+            chrome.tabs.sendMessage(tab.id, {cmd: "next_song"}, 
+                update_song_info);           
+        }
+    );
+}
 
 /**
  * Turn on/off scrobbling link was clicked

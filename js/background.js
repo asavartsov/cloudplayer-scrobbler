@@ -80,12 +80,10 @@ function port_on_message(message) {
                         Math.round(new Date().getTime() / 1000) - _p.song.position, 
                         _p.song.artist,
                         _p.song.album,
-                        function(response) {
+                        function (response) {
                             if(!response.error) {
                                 scrobbled = true;
-                            }
-                            else 
-                            {
+                            } else {
                                 if(response.error == 9) {
                                     // Session expired
                                     clear_session();

@@ -134,7 +134,9 @@ window.setInterval(function() {
 }, 
 5000);	
 
-
+/*
+* Listeners for player control buttons
+*/
 chrome.extension.onMessage.addListener(toggle_play);
 chrome.extension.onMessage.addListener(next_song);
 
