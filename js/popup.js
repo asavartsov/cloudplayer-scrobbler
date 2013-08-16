@@ -40,33 +40,6 @@ function open_play_tab() {
     );
 }
 
-function toggle_play() {
-    var has_song = bp.player.has_song;
-    find_play_tab(
-        function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "toggle_play"}, 
-                function() {
-                    if (has_song) {
-                        toggle_play_btn();
-                    } else {
-                        update_song_info();
-                        toggle_play_btn();
-                    }
-                }
-            );           
-        }
-    );
-}
-
-function next_song() {
-    find_play_tab(
-        function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "next_song"}, 
-                update_song_info);           
-        }
-    );
-}
-
 function set_play_link() {
     $("#cover").click(open_play_tab);
 }
@@ -199,6 +172,33 @@ function render_love_button() {
 }
 
 /* Event handlers */
+
+function toggle_play() {
+    var has_song = bp.player.has_song;
+    find_play_tab(
+        function(tab) {
+            chrome.tabs.sendMessage(tab.id, {cmd: "toggle_play"}, 
+                function() {
+                    if (has_song) {
+                        toggle_play_btn();
+                    } else {
+                        update_song_info();
+                        toggle_play_btn();
+                    }
+                }
+            );           
+        }
+    );
+}
+
+function next_song() {
+    find_play_tab(
+        function(tab) {
+            chrome.tabs.sendMessage(tab.id, {cmd: "next_song"}, 
+                update_song_info);           
+        }
+    );
+}
 
 /**
  * Turn on/off scrobbling link was clicked
