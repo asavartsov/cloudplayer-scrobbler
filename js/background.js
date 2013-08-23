@@ -24,7 +24,6 @@ var SETTINGS = {
 };
 
 var player = {}; // Previous player state
-var scrobbled = false;
 var time_played = 0;
 var curr_song_title = "";
 var lastfm_api = new LastFM(SETTINGS.api_key, SETTINGS.api_secret);
@@ -80,35 +79,12 @@ function port_on_message(message) {
         if(_p.is_playing) {
             chrome.browserAction.setIcon({ 
                 'path': SETTINGS.playing_icon });
-            
-            var scrobble_point = _p.song.time * SETTINGS.scrobble_threshold;
-             
-             /*
-             * Scrobble via passing the 'scrobble_threshold' mark.
-             */
-            var time_to_scrobble = scrobble_point - _p.song.position;
-            if (time_to_scrobble <= 0) {
-                if (!scrobbled) {
-                    scrobble_song(_p.song.artist, _p.song.album, _p.song.title,
-                        Math.round(new Date().getTime() / 1000) - _p.song.position);
-                    time_played = 0;
-                }
-            } else {
-                scrobbled = false;
-            }
-            
-            /*
-            * Scrobble every 'scrobble_interval' seconds if it's not too close to 'scrobble_threshold'.
-            */
-            if (time_played >= SETTINGS.scrobble_interval && 
-                    (_p.song.position < scrobble_point - SETTINGS.scrobble_interval || 
-                    _p.song.position > scrobble_point + SETTINGS.scrobble_interval)) {
-                time_played = 0;
-                console.log("Scrobbled " + _p.song.title);
+
+            if (time_played >= _p.song.time * SETTINGS.scrobble_threshold || 
+                    time_played >= SETTINGS.scrobble_interval) {
                 scrobble_song(_p.song.artist, _p.song.album, _p.song.title,
-                    Math.round(
-                    new Date().getTime() / 1000) - SETTINGS.scrobble_interval
-                    );
+                    Math.round(new Date().getTime() / 1000) - time_played);
+                time_played = 0;
             } else {
                 time_played += SETTINGS.refresh_interval;
             }
@@ -129,7 +105,6 @@ function port_on_message(message) {
     else 
     {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
-        scrobbled = false;
     }
 }
  
@@ -139,7 +114,7 @@ function scrobble_song(artist, album, title, time) {
     lastfm_api.scrobble(title, time, artist, album,
         function(response) {
             if(!response.error) {
-                scrobbled = true;
+            
             } else {
                 if(response.error == 9) {
                     // Session expired
@@ -157,7 +132,7 @@ function scrobble_song(artist, album, title, time) {
 */
 function port_on_disconnect() {
     player = {}; // Clear player state
-    scrobbled = false;
+    time_played = 0
     chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
 }
 
