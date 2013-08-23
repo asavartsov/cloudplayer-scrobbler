@@ -18,7 +18,9 @@ var SETTINGS = {
     scrobbling_stopped_icon: "../img/main-icon-scrobbling-stopped.png",
 	
 	scrobble_threshold: .70,
-    scrobble_interval: 240 // 4 minutes
+    scrobble_interval: 300, // 5 minutes
+    // NOTE: This should be exactly the same as the portMessage interval in contentscript.js.
+    refresh_interval: 5
 };
 
 var player = {}; // Previous player state
@@ -81,13 +83,24 @@ function port_on_message(message) {
             
             var scrobble_point = _p.song.time * SETTINGS.scrobble_threshold;
              
+             /*
+             * Scrobble via passing the 'scrobble_threshold' mark.
+             */
             var time_to_scrobble = scrobble_point - _p.song.position;
             if (time_to_scrobble <= 0) {
-                if(!scrobbled) {
+                if (!scrobbled) {
                     scrobble_song(_p.song.artist, _p.song.album, _p.song.title,
                         Math.round(new Date().getTime() / 1000) - _p.song.position);
+                    time_played = 0;
                 }
-            } else if (time_played >= SETTINGS.scrobble_interval && 
+            } else {
+                scrobbled = false;
+            }
+            
+            /*
+            * Scrobble every 'scrobble_interval' seconds if it's not too close to 'scrobble_threshold'.
+            */
+            if (time_played >= SETTINGS.scrobble_interval && 
                     (_p.song.position < scrobble_point - SETTINGS.scrobble_interval || 
                     _p.song.position > scrobble_point + SETTINGS.scrobble_interval)) {
                 time_played = 0;
@@ -97,8 +110,7 @@ function port_on_message(message) {
                     new Date().getTime() / 1000) - SETTINGS.scrobble_interval
                     );
             } else {
-                time_played += 5;
-                scrobbled = false;
+                time_played += SETTINGS.refresh_interval;
             }
             
             lastfm_api.now_playing(_p.song.title,

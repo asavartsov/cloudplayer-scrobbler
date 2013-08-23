@@ -129,6 +129,7 @@ GoogleMusicParser.prototype._get_song_album = function() {
 
 var port = chrome.extension.connect({name: "cloudplayer"});
 
+// NOTE: If you update this, you must also update SETTINGS.refresh_interval accordingly in background.js.
 window.setInterval(function() {
     port.postMessage(new Player(new GoogleMusicParser()));
 }, 
