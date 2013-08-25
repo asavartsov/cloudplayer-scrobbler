@@ -18,7 +18,7 @@ var SETTINGS = {
     scrobbling_stopped_icon: "../img/main-icon-scrobbling-stopped.png",
 	
 	scrobble_threshold: .70,
-    scrobble_interval: 300, // 5 minutes
+    scrobble_interval: 480, // 8 minutes
     // NOTE: This should be exactly the same as the portMessage interval in contentscript.js.
     refresh_interval: 5
 };
@@ -79,7 +79,6 @@ function port_on_message(message) {
         if(_p.is_playing) {
             chrome.browserAction.setIcon({ 
                 'path': SETTINGS.playing_icon });
-
             if (time_played >= _p.song.time * SETTINGS.scrobble_threshold || 
                     time_played >= SETTINGS.scrobble_interval) {
                 scrobble_song(_p.song.artist, _p.song.album, _p.song.title,
