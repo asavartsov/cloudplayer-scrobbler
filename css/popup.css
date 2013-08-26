@@ -71,7 +71,7 @@ a:hover {
 }
 
 #lastfm-buttons {
-    margin-top: 6px;
+    margin-top: 10px;
     float: left;
 }
 
@@ -119,7 +119,7 @@ a.notloved {
 }
 
 #player-controls {
-    margin-top: 3px;
+    margin-top: 8px;
 }
 a.play, a.pause {
     display: inline-block;
