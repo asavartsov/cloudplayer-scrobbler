@@ -17,7 +17,7 @@ var SETTINGS = {
     error_icon: "../img/main-icon-error.png",
     scrobbling_stopped_icon: "../img/main-icon-scrobbling-stopped.png",
 	
-	scrobble_threshold: .70,
+	scrobble_threshold: .7,
     scrobble_interval: 480, // 8 minutes
     // NOTE: This should be exactly the same as the portMessage interval in contentscript.js.
     refresh_interval: 5
@@ -63,21 +63,22 @@ function port_on_message(message) {
     // Save player state
     player = _p;
     
-    if(!SETTINGS.scrobble) {
+    if (!SETTINGS.scrobble) {
         chrome.browserAction.setIcon({
             'path': SETTINGS.scrobbling_stopped_icon });
 
         return;
     }
 
-    if(_p.has_song) {
-        if (_p.song.title != curr_song_title) {
+    if (_p.has_song) {
+        if (_p.song.title != curr_song_title || 
+                _p.song.position <= SETTINGS.refresh_interval) {
             curr_song_title = _p.song.title;
             time_played = 0;
         }
         
-        if(_p.is_playing) {
-            chrome.browserAction.setIcon({ 
+        if (_p.is_playing) {
+            chrome.browserAction.setIcon({
                 'path': SETTINGS.playing_icon });
             if (time_played >= _p.song.time * SETTINGS.scrobble_threshold || 
                     time_played >= SETTINGS.scrobble_interval) {
@@ -100,22 +101,20 @@ function port_on_message(message) {
             chrome.browserAction.setIcon({ 
                 'path': SETTINGS.paused_icon });
         }
-    }
-    else 
-    {
+    } else {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
     }
 }
  
- 
+
 function scrobble_song(artist, album, title, time) {
     // Scrobble this song
     lastfm_api.scrobble(title, time, artist, album,
         function(response) {
-            if(!response.error) {
+            if (!response.error) {
             
             } else {
-                if(response.error == 9) {
+                if (response.error == 9) {
                     // Session expired
                     clear_session();
                 }
@@ -177,8 +176,7 @@ function toggle_scrobble() {
 function get_lastfm_session(token) {
     lastfm_api.authorize(token, function(response) {
         // Save session
-        if(response.session)
-        {
+        if (response.session) {
             localStorage["session_key"] = response.session.key;
             localStorage["session_name"] = response.session.name;
         }
