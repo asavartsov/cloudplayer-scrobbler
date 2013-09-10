@@ -127,7 +127,7 @@ GoogleMusicParser.prototype._get_song_album = function() {
     return $("#playerSongInfo .player-artist-album-wrapper .player-album").text();
 };
 
-var port = chrome.extension.connect({name: "cloudplayer"});
+var port = chrome.runtime.connect();
 
 // NOTE: If you update this, you must also update SETTINGS.refresh_interval accordingly in background.js.
 window.setInterval(function() {
@@ -138,19 +138,19 @@ window.setInterval(function() {
 /*
 * Listeners for player control buttons
 */
-chrome.extension.onMessage.addListener(toggle_play);
-chrome.extension.onMessage.addListener(next_song);
+chrome.runtime.onMessage.addListener(toggle_play);
+chrome.runtime.onMessage.addListener(next_song);
 
-function toggle_play(request, sndr, callback) {
-    if (request.cmd == "toggle_play") {
+function toggle_play(msg, sndr, callback) {
+    if (msg.cmd == "tgl") {
         $(".player-middle button[data-id='play-pause']").click();
         port.postMessage(new Player(new GoogleMusicParser()));
         callback();
     }
 }
 
-function next_song(request, sndr, callback) {
-    if (request.cmd == "next_song") {
+function next_song(msg, sndr, callback) {
+    if (msg.cmd == "nxt") {
         $(".player-middle button[data-id='forward']").click();
         port.postMessage(new Player(new GoogleMusicParser()));
         callback();

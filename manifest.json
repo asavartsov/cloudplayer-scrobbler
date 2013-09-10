@@ -5,11 +5,11 @@
       "http://play.google.com/",
       "https://play.google.com/"
    ],
-   "version" : "1.4.5",
+   "version" : "1.4.6",
    "manifest_version": 2,
    "background": {
     "page": "html/background.html",
-    "persistent": true
+    "persistent": false
    },
    "name" : "Google Play Last.fm Scrobbler",
    "icons" : {

@@ -4,7 +4,6 @@
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
  * Licensed under the MIT license
  */
-
 var SETTINGS = {
     api_key: "d00dce85051b7dbcbfcc165eaebfc6d2",
     api_secret: "bdfcae3563763ece1b6d3dcdd56a7ab8",
@@ -40,17 +39,14 @@ if (!SETTINGS.scrobble) {
 }
 
 // Connect event handlers
-chrome.extension.onConnect.addListener(port_on_connect);
+chrome.runtime.onConnect.addListener(port_on_connect);
 
 /**
  * Content script has connected to the extension
  */
 function port_on_connect(port) {
-    if (port.name == "cloudplayer")
-    {
-        port.onMessage.addListener(port_on_message);
-        port.onDisconnect.addListener(port_on_disconnect);
-    }
+    port.onMessage.addListener(port_on_message);
+    port.onDisconnect.addListener(port_on_disconnect);
 }
  
  /**
@@ -139,7 +135,7 @@ function port_on_disconnect() {
  * Authentication link from popup window
  */
 function start_web_auth() {
-    var callback_url = chrome.extension.getURL(SETTINGS.callback_file);
+    var callback_url = chrome.runtime.getURL(SETTINGS.callback_file);
     chrome.tabs.create({
         'url': 
             "http://www.last.fm/api/auth?api_key=" + 

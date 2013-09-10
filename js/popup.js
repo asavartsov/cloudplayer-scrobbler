@@ -5,16 +5,19 @@
  * Licensed under the MIT license
  */
 /* Background page */
-var bp = chrome.extension.getBackgroundPage();
+var bp; 
 
 /* Render popup when DOM is ready */
 $(document).ready(function() {
-    set_play_link();
-    render_song();
-    if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
-        render_scrobble_link();
-    }
-    render_auth_link();
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+        bp = backgroundPage;
+        set_play_link();
+        render_song();
+        if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
+            render_scrobble_link();
+        }
+        render_auth_link();
+    });
 });
 
 function find_play_tab(callback) {
@@ -81,16 +84,14 @@ function toggle_play_btn() {
  * Renders current song details
  */
 function render_song() {
-    if(bp.player.has_song)
-    {
+    if (bp.player.has_song) {
         update_song_info();
         $("#play-pause-btn").click(toggle_play);
         $("#next-btn").click(next_song);        
-        if(!(bp.lastfm_api.session.name && bp.lastfm_api.session.key)) {
+        if (!(bp.lastfm_api.session.name && bp.lastfm_api.session.key)) {
             $("#lastfm-buttons").hide();
         }
-    }
-    else {
+    } else {
         $("#song").addClass("nosong");
         $("#artist").text("");
         $("#track").html('');
@@ -150,14 +151,12 @@ function render_love_button() {
             bp.player.song.artist, 
             function(result) {
                 $("#love-button").html('<a href="#"></a>');
-                if(result) {
+                if (result) {
                     $("#love-button a").attr({ title: "Unlove this song"})
                     .click(on_unlove)
                     .addClass("loved");
             
-                }
-                else 
-                {
+                } else {
                     $("#love-button a").attr({ title: "Love this song" })
                     .click(on_love)
                     .addClass("notloved");
@@ -171,7 +170,7 @@ function toggle_play() {
     var has_song = bp.player.has_song;
     find_play_tab(
         function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "toggle_play"}, 
+            chrome.tabs.sendMessage(tab.id, {cmd: "tgl"}, 
                 function() {
                     if (has_song) {
                         toggle_play_btn();
@@ -188,7 +187,7 @@ function toggle_play() {
 function next_song() {
     find_play_tab(
         function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "next_song"}, 
+            chrome.tabs.sendMessage(tab.id, {cmd: "nxt"}, 
                 update_song_info);           
         }
     );
@@ -224,11 +223,11 @@ function on_logout() {
 function on_love() {
     bp.lastfm_api.love_track(bp.player.song.title, bp.player.song.artist, 
         function(result) {
-            if(!result.error) {
+            if (!result.error) {
                 render_love_button();
             }
             else {
-                if(result.error == 9) {
+                if (result.error == 9) {
                     // Session expired
                     bp.clear_session();
                     render_auth_link();
@@ -248,11 +247,10 @@ function on_love() {
 function on_unlove() {
     bp.lastfm_api.unlove_track(bp.player.song.title, bp.player.song.artist, 
         function(result) {
-            if(!result.error) {
+            if (!result.error) {
                 render_love_button();
-            }
-            else {
-                if(result.error == 9) {
+            } else {
+                if (result.error == 9) {
                     // Session expired
                     bp.clear_session();
                     render_auth_link();
