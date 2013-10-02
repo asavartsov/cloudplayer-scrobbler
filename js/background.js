@@ -17,7 +17,7 @@ var SETTINGS = {
     scrobbling_stopped_icon: "../img/main-icon-scrobbling-stopped.png",
 	
 	scrobble_threshold: .7,
-    scrobble_interval: 480, // 8 minutes
+    scrobble_interval: 420, // 7 minutes
     // NOTE: This should be exactly the same as the portMessage interval in contentscript.js.
     refresh_interval: 5
 };
@@ -107,14 +107,11 @@ function scrobble_song(artist, album, title, time) {
     // Scrobble this song
     lastfm_api.scrobble(title, time, artist, album,
         function(response) {
-            if (!response.error) {
-            
-            } else {
+            if (response.error) {
                 if (response.error == 9) {
                     // Session expired
                     clear_session();
                 }
-                
                 chrome.browserAction.setIcon({
                      'path': SETTINGS.error_icon });
             }
