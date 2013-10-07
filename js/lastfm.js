@@ -251,18 +251,23 @@ LastFM.prototype._xhr = function(method, params, callback) {
     
     xhr.open(method, uri);
     
-    // TODO: Better error handling
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             var reply;
             
             try {
                 reply = JSON.parse(xhr.responseText);
+                if (reply.error) {
+                    console.log('Last.fm ' + params.method + 
+                            ' error: ' + reply.error)
+                }
             }
             catch (e) {
                 reply = null;
+                console.log('Error parsing JSON response.');
+                console.log('Request params:');
+                console.log(params);
             }
-            
             callback(reply);
         }
     };
