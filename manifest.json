@@ -5,7 +5,7 @@
       "http://play.google.com/",
       "https://play.google.com/"
    ],
-   "version" : "1.4.7",
+   "version" : "1.4.8",
    "manifest_version": 2,
    "background": {
     "page": "html/background.html",
@@ -42,5 +42,8 @@
             "js/jquery-1.7.min.js"
          ]
       }
-   ]
+   ],
+   "web_accessible_resources": [
+    "html/lastfm_callback.html"
+    ]
 }
