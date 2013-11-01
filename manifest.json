@@ -5,7 +5,7 @@
       "http://play.google.com/",
       "https://play.google.com/"
    ],
-   "version" : "1.4.8",
+   "version" : "1.4.9",
    "manifest_version": 2,
    "background": {
     "page": "html/background.html",

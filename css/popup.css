@@ -15,8 +15,6 @@ body {
 
 span {
     line-height: 100%;
-    padding: 0;
-    margin: 0;
 }
 
 a {
@@ -60,6 +58,7 @@ a:hover {
 }
 
 #album {
+    min-height: 25px;
     font-style: italic;
     color: #999;
     font-size: 80%;
@@ -68,11 +67,6 @@ a:hover {
 #track {
     margin-top: 6px;
     font-size: 14px;
-}
-
-#lastfm-buttons {
-    margin-top: 10px;
-    float: left;
 }
 
 #bottom {
@@ -118,9 +112,6 @@ a.notloved {
     background-position: 0 -16px;
 }
 
-#player-controls {
-    margin-top: 8px;
-}
 a.play, a.pause {
     display: inline-block;
     width: 16px;
