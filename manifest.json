@@ -1,24 +1,25 @@
 {
+   "name" : "Google Play Last.fm Scrobbler",
+   "description" : "Scrobbles songs from Google Play to Last.fm",
+   "version" : "1.5.0",
+   "manifest_version": 2,
    "permissions" : [
       "tabs",
       "http://ws.audioscrobbler.com/",
       "http://play.google.com/",
       "https://play.google.com/"
    ],
-   "version" : "1.4.9",
-   "manifest_version": 2,
    "background": {
-    "page": "html/background.html",
+    "scripts": ["js/md5.js", "js/lastfm.js", 
+      "js/settings.js", "js/background.js"],
     "persistent": false
    },
-   "name" : "Google Play Last.fm Scrobbler",
    "icons" : {
       "128" : "img/icon128.png",
       "64" : "img/icon64.png",
       "16" : "img/icon16.png",
       "48" : "img/icon48.png"
    },
-   "description" : "Scrobbles songs from Google Play to Last.fm",
    "browser_action" : {
       "default_popup" : "html/popup.html",
       "default_icon" : "img/main-icon.png"
@@ -30,6 +31,7 @@
          ],
          "js" : [
             "js/inject.js",
+            "js/settings.js",
             "js/contentscript.js"
          ]
       },
@@ -43,6 +45,7 @@
          ]
       }
    ],
+   "options_page": "html/options.html",
    "web_accessible_resources": [
     "html/lastfm_callback.html"
     ]

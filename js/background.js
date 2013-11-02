@@ -4,33 +4,20 @@
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
  * Licensed under the MIT license
  */
-var SETTINGS = {
-    api_key: "d00dce85051b7dbcbfcc165eaebfc6d2",
-    api_secret: "bdfcae3563763ece1b6d3dcdd56a7ab8",
-    
-    callback_file: "html/lastfm_callback.html",
-    
-    main_icon: "../img/main-icon.png",
-    playing_icon: "../img/main-icon-playing.png",
-    paused_icon: "../img/main-icon-paused.png",
-    error_icon: "../img/main-icon-error.png",
-    scrobbling_stopped_icon: "../img/main-icon-scrobbling-stopped.png",
-	
-	scrobble_threshold: .7,
-    scrobble_interval: 420, // 7 minutes
-    // NOTE: This should be exactly the same as the portMessage interval in contentscript.js.
-    refresh_interval: 5
-};
 
 var player = {}; // Previous player state
 var time_played = 0;
-var curr_song_title = "";
+var num_scrobbles = 0;
+var curr_song_title = '';
 var lastfm_api = new LastFM(SETTINGS.api_key, SETTINGS.api_secret);
 
 // Load settings from local storage
-lastfm_api.session.key = localStorage["session_key"] || null;
-lastfm_api.session.name = localStorage["session_name"] || null;
+lastfm_api.session.key = localStorage['session_key'] || null;
+lastfm_api.session.name = localStorage['session_name'] || null;
 
+SETTINGS.max_scrobbles = localStorage['max_scrobbles'] && 
+                            parseInt(localStorage['max_scrobbles']) || 
+                            SETTINGS.max_scrobbles;
 // This enables scrobbling by default
 SETTINGS.scrobble = !(localStorage["scrobble"] == "false");
 
@@ -55,7 +42,7 @@ function port_on_connect(port) {
 function port_on_message(message) {
     // Current player state
     var _p = message;
-
+    
     // Save player state
     player = _p;
     
@@ -71,16 +58,19 @@ function port_on_message(message) {
                 _p.song.position <= SETTINGS.refresh_interval) {
             curr_song_title = _p.song.title;
             time_played = 0;
+            num_scrobbles = 0;
         }
         
         if (_p.is_playing) {
             chrome.browserAction.setIcon({
                 'path': SETTINGS.playing_icon });
-            if (time_played >= _p.song.time * SETTINGS.scrobble_threshold || 
-                    time_played >= SETTINGS.scrobble_interval) {
+            if ((time_played >= _p.song.time * SETTINGS.scrobble_point || 
+                    time_played >= SETTINGS.scrobble_interval) &&
+                    num_scrobbles < SETTINGS.max_scrobbles) {
                 scrobble_song(_p.song.artist, _p.song.album, _p.song.title,
                     Math.round(new Date().getTime() / 1000) - time_played);
                 time_played = 0;
+                num_scrobbles += 1;
             } else {
                 time_played += SETTINGS.refresh_interval;
             }
@@ -123,7 +113,8 @@ function scrobble_song(artist, album, title, time) {
 */
 function port_on_disconnect() {
     player = {}; // Clear player state
-    time_played = 0
+    time_played = 0;
+    num_scrobbles = 0;
     chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
 }
 

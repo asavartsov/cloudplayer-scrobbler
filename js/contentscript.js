@@ -129,11 +129,10 @@ GoogleMusicParser.prototype._get_song_album = function() {
 
 var port = chrome.runtime.connect();
 
-// NOTE: If you update this, you must also update SETTINGS.refresh_interval accordingly in background.js.
 window.setInterval(function() {
     port.postMessage(new Player(new GoogleMusicParser()));
 }, 
-5000);	
+SETTINGS.refresh_interval * 1000);	
 
 /*
 * Listeners for player control buttons
