@@ -25,6 +25,8 @@ function restore_options() {
         scrobble_mult = parseInt(localStorage['max_scrobbles']) > 1;
     }
     document.getElementById('scrobble_mult').checked = scrobble_mult;
+    document.getElementById('minute_field').innerHTML = 
+            Math.round(SETTINGS.scrobble_interval / 60);
 }
 document.addEventListener('DOMContentLoaded', restore_options);
 document.querySelector('#save').addEventListener('click', save_options);
