@@ -16,3 +16,10 @@ var SETTINGS = {
 
     refresh_interval: 5
 };
+
+SETTINGS.max_scrobbles = localStorage['max_scrobbles'] && 
+                            parseInt(localStorage['max_scrobbles']) || 
+                            SETTINGS.max_scrobbles;
+
+// This enables scrobbling by default
+SETTINGS.scrobble = !(localStorage["scrobble"] == "false");

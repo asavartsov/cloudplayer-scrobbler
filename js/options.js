@@ -21,12 +21,9 @@ function save_options() {
 // Restores select box state to saved value from localStorage.
 function restore_options() {
     var scrobble_mult = SETTINGS.max_scrobbles > 1;
-    if (localStorage['max_scrobbles']) {
-        scrobble_mult = parseInt(localStorage['max_scrobbles']) > 1;
-    }
     document.getElementById('scrobble_mult').checked = scrobble_mult;
     document.getElementById('minute_field').innerHTML = 
-            Math.round(SETTINGS.scrobble_interval / 60);
+            Math.round((SETTINGS.scrobble_interval / 60) * 100) / 100;
 }
 document.addEventListener('DOMContentLoaded', restore_options);
 document.querySelector('#save').addEventListener('click', save_options);

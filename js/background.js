@@ -15,12 +15,6 @@ var lastfm_api = new LastFM(SETTINGS.api_key, SETTINGS.api_secret);
 lastfm_api.session.key = localStorage['session_key'] || null;
 lastfm_api.session.name = localStorage['session_name'] || null;
 
-SETTINGS.max_scrobbles = localStorage['max_scrobbles'] && 
-                            parseInt(localStorage['max_scrobbles']) || 
-                            SETTINGS.max_scrobbles;
-// This enables scrobbling by default
-SETTINGS.scrobble = !(localStorage["scrobble"] == "false");
-
 if (!SETTINGS.scrobble) {
     chrome.browserAction.setIcon({ 'path': SETTINGS.scrobbling_stopped_icon });
 }
