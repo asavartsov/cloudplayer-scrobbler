@@ -274,7 +274,7 @@ LastFM.prototype._xhr = function(method, params, callback) {
 
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
     // The cache is a lie!
-    xhr.setRequestHeader("If-Modified-Since", new Date(0));
+    xhr.setRequestHeader("If-Modified-Since", "Thu, 01 Jun 1970 00:00:00 GMT");
     xhr.setRequestHeader("Pragma", "no-cache");
     xhr.send(_data || null);
 };
