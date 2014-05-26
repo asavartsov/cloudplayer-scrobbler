@@ -5,7 +5,7 @@
  * Licensed under the MIT license
  */
 /* Background page */
-var bp; 
+var bp;
 
 /* Render popup when DOM is ready */
 $(document).ready(function() {
@@ -37,7 +37,7 @@ function open_play_tab() {
             if (tab) {
                 chrome.tabs.update(tab.id, {selected: true});
             } else {
-                chrome.tabs.create({url: 
+                chrome.tabs.create({url:
                     'https://play.google.com/music/listen',
                      selected: true});
             }
@@ -62,7 +62,7 @@ function update_song_info() {
     } else {
         songElem.attr('scrollamount', '0');
     }
-    
+
     if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
         render_love_button();
     }
@@ -87,7 +87,8 @@ function render_song() {
     if (bp.player.has_song) {
         update_song_info();
         $("#play-pause-btn").click(toggle_play);
-        $("#next-btn").click(next_song);        
+        $("#next-btn").click(next_song);
+        $("#prev-btn").click(prev_song);
         if (!(bp.lastfm_api.session.name && bp.lastfm_api.session.key)) {
             $("#lastfm-buttons").hide();
         }
@@ -125,7 +126,7 @@ function render_auth_link() {
             target: "_blank"
         })
         .text(bp.lastfm_api.session.name);
-        
+
         $("#lastfm-profile a:last")
         .attr({
             href: "#",
@@ -146,16 +147,16 @@ function render_auth_link() {
  */
 function render_love_button() {
     $("#love-button").html('<img src="../img/ajax-loader.gif">');
-    
+
     bp.lastfm_api.is_track_loved(bp.player.song.title,
-            bp.player.song.artist, 
+            bp.player.song.artist,
             function(result) {
                 $("#love-button").html('<a href="#"></a>');
                 if (result) {
                     $("#love-button a").attr({ title: "Unlove this song"})
                     .click(on_unlove)
                     .addClass("loved");
-            
+
                 } else {
                     $("#love-button a").attr({ title: "Love this song" })
                     .click(on_love)
@@ -170,7 +171,7 @@ function toggle_play() {
     var has_song = bp.player.has_song;
     find_play_tab(
         function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "tgl"}, 
+            chrome.tabs.sendMessage(tab.id, {cmd: "tgl"},
                 function() {
                     if (has_song) {
                         toggle_play_btn();
@@ -179,7 +180,16 @@ function toggle_play() {
                         toggle_play_btn();
                     }
                 }
-            );           
+            );
+        }
+    );
+}
+
+function prev_song() {
+    find_play_tab(
+        function(tab) {
+            chrome.tabs.sendMessage(tab.id, {cmd: "prv"},
+                update_song_info);
         }
     );
 }
@@ -187,8 +197,8 @@ function toggle_play() {
 function next_song() {
     find_play_tab(
         function(tab) {
-            chrome.tabs.sendMessage(tab.id, {cmd: "nxt"}, 
-                update_song_info);           
+            chrome.tabs.sendMessage(tab.id, {cmd: "nxt"},
+                update_song_info);
         }
     );
 }
@@ -221,7 +231,7 @@ function on_logout() {
  * Love button was clicked
  */
 function on_love() {
-    bp.lastfm_api.love_track(bp.player.song.title, bp.player.song.artist, 
+    bp.lastfm_api.love_track(bp.player.song.title, bp.player.song.artist,
         function(result) {
             if (!result.error) {
                 render_love_button();
@@ -232,7 +242,7 @@ function on_love() {
                     bp.clear_session();
                     render_auth_link();
                 }
-                
+
                 chrome.browserAction.setIcon({
                      'path': SETTINGS.error_icon });
             }
@@ -245,7 +255,7 @@ function on_love() {
  * Unlove button was clicked
  */
 function on_unlove() {
-    bp.lastfm_api.unlove_track(bp.player.song.title, bp.player.song.artist, 
+    bp.lastfm_api.unlove_track(bp.player.song.title, bp.player.song.artist,
         function(result) {
             if (!result.error) {
                 render_love_button();
@@ -255,7 +265,7 @@ function on_unlove() {
                     bp.clear_session();
                     render_auth_link();
                 }
-                
+
                 chrome.browserAction.setIcon({
                      'path': SETTINGS.error_icon });
             }

@@ -138,11 +138,20 @@ SETTINGS.refresh_interval * 1000);
 * Listeners for player control buttons
 */
 chrome.runtime.onMessage.addListener(toggle_play);
+chrome.runtime.onMessage.addListener(prev_song);
 chrome.runtime.onMessage.addListener(next_song);
 
 function toggle_play(msg, sndr, callback) {
     if (msg.cmd == "tgl") {
         $(".player-middle button[data-id='play-pause']").click();
+        port.postMessage(new Player(new GoogleMusicParser()));
+        callback();
+    }
+}
+
+function prev_song(msg, sndr, callback) {
+    if (msg.cmd == "prv") {
+        $(".player-middle button[data-id='rewind']").click();
         port.postMessage(new Player(new GoogleMusicParser()));
         callback();
     }

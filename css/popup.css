@@ -128,6 +128,14 @@ a.pause {
     background-position: 0 -19px;
 }
 
+#prev-btn {
+    display: inline-block;
+    width: 25px;
+    height: 18px;
+    background-image: url('../img/prev.png');
+    background-repeat: no-repeat;
+}
+
 #next-btn {
     display: inline-block;
     width: 25px;
