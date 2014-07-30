@@ -15,7 +15,7 @@ function LastFM(api_key, api_secret) {
     this.API_KEY = api_key || "";
     this.API_SECRET = api_secret || "";
     this.API_ROOT = "http://ws.audioscrobbler.com/2.0/";
-    
+
     this.session = {};
 }
 
@@ -35,10 +35,10 @@ LastFM.prototype.authorize = function(token, callback) {
 
     params.api_sig = this._req_sign(params);
     params.format = "json";
-    
+
     var self = this;
 
-    this._xhr("GET", params, 
+    this._xhr("GET", params,
         function(reply) {
             if(reply) {
                 self.session.key = reply.session.key;
@@ -72,10 +72,10 @@ LastFM.prototype.now_playing = function(track, artist, album, callback) {
     params.api_sig = this._req_sign(params);
     params.format = "json";
 
-    this._xhr("POST", params, 
+    this._xhr("POST", params,
         function(result) {
             callback(result);
-        });     
+        });
 };
 
 /**
@@ -97,11 +97,11 @@ LastFM.prototype.scrobble = function(track, timestamp, artist, album, callback) 
         'album': album || "",
         'sk': this.session.key
     };
-    
+
     params.api_sig = this._req_sign(params);
     params.format = "json";
-    
-    this._xhr("POST", params, 
+
+    this._xhr("POST", params,
         function(result) {
             callback(result);
         });
@@ -123,11 +123,11 @@ LastFM.prototype.love_track = function(track, artist, callback) {
         'artist': artist,
         'sk': this.session.key
     };
-    
+
     params.api_sig = this._req_sign(params);
     params.format = "json";
-    
-    this._xhr("POST", params, 
+
+    this._xhr("POST", params,
         function(result) {
             callback(result);
         });
@@ -149,11 +149,11 @@ LastFM.prototype.unlove_track = function(track, artist, callback) {
         'artist': artist,
         'sk': this.session.key
     };
-    
+
     params.api_sig = this._req_sign(params);
     params.format = "json";
-    
-    this._xhr("POST", params, 
+
+    this._xhr("POST", params,
         function(result) {
             callback(result);
         });
@@ -172,7 +172,7 @@ LastFM.prototype.is_track_loved = function(track, artist, callback) {
         callback(false);
         return;
     }
-    
+
     var params = {
         'api_key': this.API_KEY,
         'method': "track.getInfo",
@@ -180,14 +180,14 @@ LastFM.prototype.is_track_loved = function(track, artist, callback) {
         'artist': artist,
         'username': this.session.name
     };
-    
+
     params.format = 'json';
-    
+
     this._xhr("GET", params, function(result) {
         if(!result.error && result.track) {
             callback(result.track.userloved == 1);
         }
-        else 
+        else
         {
             callback(false);
         }
@@ -204,16 +204,16 @@ LastFM.prototype._req_sign = function(params) {
     var keys = [];
     var key, i;
     var signature = "";
-    
+
     for(key in params) {
         keys.push(key);
     }
-    
+
     for(i in keys.sort()) {
         key = keys[i];
         signature += key + params[key];
     }
-    
+
     signature += this.API_SECRET;
     return hex_md5(signature);
 };
@@ -232,12 +232,12 @@ LastFM.prototype._xhr = function(method, params, callback) {
     var _data = "";
     var _params = [];
     var xhr = new XMLHttpRequest();
-    
+
     for(param in params) {
         _params.push(encodeURIComponent(param) + "="
             + encodeURIComponent(params[param]));
     }
-    
+
     switch(method) {
         case "GET":
             uri += '?' + _params.join('&').replace(/%20/, '+');
@@ -248,17 +248,17 @@ LastFM.prototype._xhr = function(method, params, callback) {
         default:
             return;
     }
-    
+
     xhr.open(method, uri);
-    
+
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             var reply;
-            
+
             try {
                 reply = JSON.parse(xhr.responseText);
                 if (reply.error) {
-                    console.log('Last.fm ' + params.method + 
+                    console.log('Last.fm ' + params.method +
                             ' error: ' + reply.error)
                 }
             }

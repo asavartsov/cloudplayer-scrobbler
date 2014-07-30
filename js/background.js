@@ -29,7 +29,7 @@ function port_on_connect(port) {
     port.onMessage.addListener(port_on_message);
     port.onDisconnect.addListener(port_on_disconnect);
 }
- 
+
  /**
   * New message arrives to the port
   */
@@ -39,7 +39,7 @@ function port_on_message(message) {
 
     // Save player state
     player = _p;
-    
+
     if (!SETTINGS.scrobble) {
         chrome.browserAction.setIcon({
             'path': SETTINGS.scrobbling_stopped_icon });
@@ -48,17 +48,17 @@ function port_on_message(message) {
     }
 
     if (_p.has_song) {
-        if (_p.song.title != curr_song_title || 
+        if (_p.song.title != curr_song_title ||
                 _p.song.position <= SETTINGS.refresh_interval) {
             curr_song_title = _p.song.title;
             time_played = 0;
             num_scrobbles = 0;
         }
-        
+
         if (_p.is_playing) {
             chrome.browserAction.setIcon({
                 'path': SETTINGS.playing_icon });
-            if ((time_played >= _p.song.time * SETTINGS.scrobble_point || 
+            if ((time_played >= _p.song.time * SETTINGS.scrobble_point ||
                     time_played >= SETTINGS.scrobble_interval) &&
                     num_scrobbles < SETTINGS.max_scrobbles) {
                 scrobble_song(_p.song.artist, _p.song.album, _p.song.title,
@@ -68,24 +68,24 @@ function port_on_message(message) {
             } else {
                 time_played += SETTINGS.refresh_interval;
             }
-            
+
             lastfm_api.now_playing(_p.song.title,
                 _p.song.artist,
                 _p.song.album,
                 function(response) {
-                   // TODO: 
+                   // TODO:
                 }
             );
         } else {
             // The player is paused
-            chrome.browserAction.setIcon({ 
+            chrome.browserAction.setIcon({
                 'path': SETTINGS.paused_icon });
         }
     } else {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
     }
 }
- 
+
 
 function scrobble_song(artist, album, title, time) {
     // Scrobble this song
@@ -119,10 +119,10 @@ function port_on_disconnect() {
 function start_web_auth() {
     var callback_url = chrome.runtime.getURL(SETTINGS.callback_file);
     chrome.tabs.create({
-        'url': 
-            "http://www.last.fm/api/auth?api_key=" + 
-            SETTINGS.api_key + 
-            "&cb=" + 
+        'url':
+            "http://www.last.fm/api/auth?api_key=" +
+            SETTINGS.api_key +
+            "&cb=" +
             callback_url });
 }
 
@@ -131,7 +131,7 @@ function start_web_auth() {
  */
 function clear_session() {
     lastfm_api.session = {};
-    
+
     localStorage.removeItem("session_key");
     localStorage.removeItem("session_name");
 }
@@ -142,7 +142,7 @@ function clear_session() {
 function toggle_scrobble() {
     SETTINGS.scrobble = !SETTINGS.scrobble;
     localStorage["scrobble"] = SETTINGS.scrobble;
-    
+
     // Set the icon corresponding the current scrobble state
     var icon = SETTINGS.scrobble ? SETTINGS.main_icon : SETTINGS.scrobbling_stopped_icon;
     chrome.browserAction.setIcon({ 'path': icon });

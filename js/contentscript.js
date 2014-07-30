@@ -10,7 +10,7 @@
  *
  * Cloud Player page parser
  */
-function Player(parser) {	
+function Player(parser) {
     this.has_song = parser._get_has_song();
     this.is_playing = parser._get_is_playing();
     this.song = {
@@ -58,11 +58,11 @@ GoogleMusicParser.prototype._get_is_playing = function() {
 GoogleMusicParser.prototype._get_song_position = function() {
     var _time = $("#time_container_current").text();
     _time = $.trim(_time).split(':');
-    if(_time.length == 2) 
+    if(_time.length == 2)
     {
         return (parseInt(_time[0]) * 60 + parseInt(_time[1]));
     }
-    else if (_time.length == 3) 
+    else if (_time.length == 3)
     {
         return (parseInt(_time[0]) * 3600 + parseInt(_time[1]) * 60 + parseInt(_time[2]));
     }
@@ -79,8 +79,8 @@ GoogleMusicParser.prototype._get_song_time = function() {
     _time = $.trim(_time).split(':');
     if(_time.length == 2) {
         return (parseInt(_time[0]) * 60 + parseInt(_time[1]));
-    } 
-    else if (_time.length == 3) 
+    }
+    else if (_time.length == 3)
     {
         return (parseInt(_time[0]) * 3600 + parseInt(_time[1]) * 60 + parseInt(_time[2]));
     }
@@ -131,8 +131,8 @@ var port = chrome.runtime.connect();
 
 window.setInterval(function() {
     port.postMessage(new Player(new GoogleMusicParser()));
-}, 
-SETTINGS.refresh_interval * 1000);	
+},
+SETTINGS.refresh_interval * 1000);
 
 /*
 * Listeners for player control buttons

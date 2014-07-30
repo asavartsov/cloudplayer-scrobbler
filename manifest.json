@@ -1,7 +1,7 @@
 {
    "name" : "Google Play Last.fm Scrobbler",
    "description" : "Scrobbles songs from Google Play to Last.fm",
-   "version" : "1.5.1",
+   "version" : "1.5.2",
    "manifest_version": 2,
    "permissions" : [
       "tabs",
@@ -10,7 +10,7 @@
       "https://play.google.com/"
    ],
    "background": {
-    "scripts": ["js/md5.js", "js/lastfm.js", 
+    "scripts": ["js/md5.js", "js/lastfm.js",
       "js/settings.js", "js/background.js"],
     "persistent": false
    },

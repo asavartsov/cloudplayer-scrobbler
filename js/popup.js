@@ -71,12 +71,20 @@ function update_song_info() {
 
 function toggle_play_btn() {
     var play_btn = $("#play-pause-btn");
-    if (bp.player.is_playing) {
-        play_btn.removeClass();
-        play_btn.addClass("pause");
-    } else {
-        play_btn.removeClass();
-        play_btn.addClass("play");
+    play_btn.toggle = function() {
+        if (bp.player.is_playing) {
+            play_btn.removeClass();
+            play_btn.addClass("pause");
+        } else {
+            play_btn.removeClass();
+            play_btn.addClass("play");
+        }
+    }
+    // TODO kind of hackish
+    // This callback can be called too early (before bp.player is updated)
+    // Thus, just try a few times for 3 seconds
+    for (var i = 0; i < 30; i++) {
+        setTimeout(play_btn.toggle, i * 100);
     }
 }
 
