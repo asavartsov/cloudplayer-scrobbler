@@ -1,7 +1,7 @@
 {
    "name" : "Google Play Last.fm Scrobbler",
    "description" : "Scrobbles songs from Google Play to Last.fm",
-   "version" : "1.5.2",
+   "version" : "1.5.3",
    "manifest_version": 2,
    "permissions" : [
       "tabs",
@@ -11,7 +11,7 @@
    ],
    "background": {
     "scripts": ["js/md5.js", "js/lastfm.js",
-      "js/settings.js", "js/background.js"],
+      "js/settings.js", "js/util.js", "js/background.js"],
     "persistent": false
    },
    "icons" : {
@@ -48,5 +48,38 @@
    "options_page": "html/options.html",
    "web_accessible_resources": [
     "html/lastfm_callback.html"
-    ]
+    ],
+    "commands": {
+      "toggle_play": {
+        "suggested_key": {
+          "default": "MediaPlayPause",
+          "linux": "Ctrl+Shift+2"
+        },
+        "description": "Toggle play/pause",
+        "global": true
+      },
+      "prev_song": {
+        "suggested_key": {
+          "default": "MediaPrevTrack",
+          "linux": "Ctrl+Shift+1"
+        },
+        "description": "Previous song",
+        "global": true
+      },
+      "next_song": {
+        "suggested_key": {
+          "default": "MediaNextTrack",
+          "linux": "Ctrl+Shift+3"
+        },
+        "description": "Next song",
+        "global": true
+      },
+      "goto_play_tab": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+4"
+        },
+        "description": "Go to Google Play tab",
+        "global": true
+      }
+    }
 }

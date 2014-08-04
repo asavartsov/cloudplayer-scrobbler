@@ -22,6 +22,8 @@ if (!SETTINGS.scrobble) {
 // Connect event handlers
 chrome.runtime.onConnect.addListener(port_on_connect);
 
+bind_keyboard_shortcuts();
+
 /**
  * Content script has connected to the extension
  */
@@ -120,9 +122,9 @@ function start_web_auth() {
     var callback_url = chrome.runtime.getURL(SETTINGS.callback_file);
     chrome.tabs.create({
         'url':
-            "http://www.last.fm/api/auth?api_key=" +
+            'http://www.last.fm/api/auth?api_key=' +
             SETTINGS.api_key +
-            "&cb=" +
+            '&cb=' +
             callback_url });
 }
 
@@ -132,8 +134,8 @@ function start_web_auth() {
 function clear_session() {
     lastfm_api.session = {};
 
-    localStorage.removeItem("session_key");
-    localStorage.removeItem("session_name");
+    localStorage.removeItem('session_key');
+    localStorage.removeItem('session_name');
 }
 
 /**
@@ -141,7 +143,7 @@ function clear_session() {
  */
 function toggle_scrobble() {
     SETTINGS.scrobble = !SETTINGS.scrobble;
-    localStorage["scrobble"] = SETTINGS.scrobble;
+    localStorage['scrobble'] = SETTINGS.scrobble;
 
     // Set the icon corresponding the current scrobble state
     var icon = SETTINGS.scrobble ? SETTINGS.main_icon : SETTINGS.scrobbling_stopped_icon;
@@ -155,8 +157,39 @@ function get_lastfm_session(token) {
     lastfm_api.authorize(token, function(response) {
         // Save session
         if (response.session) {
-            localStorage["session_key"] = response.session.key;
-            localStorage["session_name"] = response.session.name;
+            localStorage['session_key'] = response.session.key;
+            localStorage['session_name'] = response.session.name;
         }
     });
+}
+
+function bind_keyboard_shortcuts() {
+    chrome.commands.onCommand.addListener(
+        function(command) {
+            switch (command) {
+                case 'toggle_play':
+                    send_cmd_to_play_tab('tgl');
+                    break;
+                case 'prev_song':
+                    send_cmd_to_play_tab('prv');
+                    break;
+                case 'next_song':
+                    send_cmd_to_play_tab('nxt');
+                    break;
+                case 'goto_play_tab':
+                    open_play_tab();
+                    break;
+                default:
+                    console.error("No handler for command '" + command + "'");
+            }
+        }
+    );
+}
+
+function send_cmd_to_play_tab(cmd) {
+    find_play_tab(
+        function(tab) {
+            chrome.tabs.sendMessage(tab.id, {cmd: cmd}, function() {});
+        }
+    );
 }
