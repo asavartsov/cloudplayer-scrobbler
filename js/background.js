@@ -193,3 +193,7 @@ function send_cmd_to_play_tab(cmd) {
         }
     );
 }
+
+function open_extensions_page() {
+  chrome.tabs.create({url: 'chrome://extensions/'});
+}

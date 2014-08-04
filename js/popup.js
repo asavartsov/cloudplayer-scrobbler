@@ -11,6 +11,9 @@ var bp;
 $(document).ready(function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
         bp = backgroundPage;
+        if (localStorage.getItem("seen_alert") === null) {
+            show_alert();
+        }
         set_play_link();
         render_song();
         if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
@@ -255,4 +258,20 @@ function on_unlove() {
         });
 
     $("#love-button").html('<img src="../img/ajax-loader.gif">');
+}
+
+/**
+* Show temporary msg from me to user <3
+*/
+function show_alert() {
+    $("#content").addClass("hidden");
+    $("#alert").removeClass("hidden");
+    $("#extns_link").click(function() {
+        bp.open_extensions_page();
+    });
+    $("#dismiss_alert").click(function() {
+        $("#content").removeClass("hidden");
+        $("#alert").addClass("hidden");
+        localStorage.setItem("seen_alert", "1");
+    });
 }

@@ -2,14 +2,14 @@
  * popup.css
  * Style sheet for popup page
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
- * Licensed under the MIT license 
+ * Licensed under the MIT license
  */
 
 body {
     padding: 10px;
     margin: 0;
     min-width: 300px;
-    
+
     font-family: "Helvetica", "Arial", sans-serif;
 }
 
@@ -37,7 +37,7 @@ a:hover {
     border: none;
     width: 60px;
     height: 60px;
-    cursor: hand; 
+    cursor: hand;
     cursor: pointer;
 }
 
@@ -72,10 +72,10 @@ a:hover {
 #bottom {
     margin-top: 10px;
     font-size: 11px;
-    
+
     color: grey;
 }
-        
+
 #scrobbling {
     float: left;
 }
@@ -146,4 +146,12 @@ a.pause {
 
 .clear {
     clear: both;
+}
+
+.hidden {
+    display: none;
+}
+
+#alert {
+    font-size: 14px;
 }
