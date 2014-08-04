@@ -264,13 +264,11 @@ function on_unlove() {
 * Show temporary msg from me to user <3
 */
 function show_alert() {
-    $("#content").addClass("hidden");
     $("#alert").removeClass("hidden");
     $("#extns_link").click(function() {
         bp.open_extensions_page();
     });
     $("#dismiss_alert").click(function() {
-        $("#content").removeClass("hidden");
         $("#alert").addClass("hidden");
         localStorage.setItem("seen_alert", "1");
     });
