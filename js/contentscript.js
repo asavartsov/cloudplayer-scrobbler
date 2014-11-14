@@ -114,7 +114,7 @@ GoogleMusicParser.prototype._get_song_artist = function() {
 GoogleMusicParser.prototype._get_song_cover = function() {
     var albumImg = $("#playingAlbumArt").attr("src");
     if (albumImg)
-        return ("http:" + albumImg);
+        return albumImg;
     return null;
 };
 
