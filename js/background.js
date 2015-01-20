@@ -90,9 +90,9 @@ function port_on_message(message) {
 }
 
 
-function scrobble_song(artist, album, title, time) {
+function scrobble_song(artist, album_artist, album, title, time) {
     // Scrobble this song
-    lastfm_api.scrobble(title, time, artist, album,
+    lastfm_api.scrobble(artist, album_artist, album, title, time,
         function(response) {
             if (response.error) {
                 if (response.error == 9) {

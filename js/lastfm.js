@@ -87,8 +87,8 @@ LastFM.prototype.now_playing = function(track, artist, album, callback) {
  * @param callback Callback function for the request. Sends a parameter with
  *                 reply decoded as JS object from JSON on null on error
  */
-LastFM.prototype.scrobble = function(track, timestamp, artist, album_artist,
-                                     album, callback) {
+LastFM.prototype.scrobble = function(artist, album_artist, album, track,
+                                     timestamp, callback) {
     var params = {
         'api_key': this.API_KEY,
         'method': "track.scrobble",
