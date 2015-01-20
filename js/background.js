@@ -63,7 +63,8 @@ function port_on_message(message) {
             if ((time_played >= _p.song.time * SETTINGS.scrobble_point ||
                     time_played >= SETTINGS.scrobble_interval) &&
                     num_scrobbles < SETTINGS.max_scrobbles) {
-                scrobble_song(_p.song.artist, _p.song.album, _p.song.title,
+                scrobble_song(_p.song.artist,_p.song.album_artist,
+                    _p.song.album, _p.song.title,
                     Math.round(new Date().getTime() / 1000) - time_played);
                 time_played = 0;
                 num_scrobbles += 1;

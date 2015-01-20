@@ -18,6 +18,7 @@ function Player(parser) {
         time: parser._get_song_time(),
         title: parser._get_song_title(),
         artist: parser._get_song_artist(),
+        album_artist: parser._get_album_artist(),
         album: parser._get_song_album(),
         cover: parser._get_song_cover()
     };
@@ -104,6 +105,15 @@ GoogleMusicParser.prototype._get_song_title = function() {
  */
 GoogleMusicParser.prototype._get_song_artist = function() {
     return $("#player-artist").text();
+};
+
+/**
+ * Get current song album artist
+ *
+ * @return The album artist
+ */
+GoogleMusicParser.prototype._get_album_artist = function() {
+    return decodeURIComponent($(".player-album").attr('data-id').split('/')[1]);
 };
 
 /**
