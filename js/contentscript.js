@@ -113,7 +113,10 @@ GoogleMusicParser.prototype._get_song_artist = function() {
  * @return The album artist
  */
 GoogleMusicParser.prototype._get_album_artist = function() {
-    return decodeURIComponent($(".player-album").attr('data-id').split('/')[1]);
+    var album_artist = $(".player-album").attr('data-id');
+    if (album_artist)
+        return decodeURIComponent(album_artist.split('/')[1].replace('+', ' '));
+    return null;
 };
 
 /**
