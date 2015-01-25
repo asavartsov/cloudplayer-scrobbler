@@ -115,7 +115,8 @@ GoogleMusicParser.prototype._get_song_artist = function() {
 GoogleMusicParser.prototype._get_album_artist = function() {
     var album_artist = $(".player-album").attr('data-id');
     if (album_artist)
-        return decodeURIComponent(album_artist.split('/')[1].replace('+', ' '));
+        return decodeURIComponent(
+            album_artist.split('/')[1].replace(/\+/g, ' '));
     return null;
 };
 
