@@ -33,13 +33,6 @@ function update_song_info() {
     $("#cover").attr({ src: bp.player.song.cover || "../img/defaultcover.png",
         alt:bp.player.song.album});
     $("#album").text(bp.player.song.album);
-    // check if we need to marquee
-    var songElem = $("#now-playing");
-    if (songElem.get(0).scrollWidth > songElem.width() + 10) {
-        songElem.attr('scrollamount', '1');
-    } else {
-        songElem.attr('scrollamount', '0');
-    }
 
     if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
         render_love_button();
