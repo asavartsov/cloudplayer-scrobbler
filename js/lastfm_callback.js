@@ -12,7 +12,7 @@ function _url_param(name, url) {
 chrome.runtime.getBackgroundPage(function(background) {
     background.get_lastfm_session(_url_param("token", location.search));
     open_play_tab();
-	setTimeout(function() {
-		window.close();
-	}, 100);
+    setTimeout(function() {
+        window.close();
+    }, 100);
 });
