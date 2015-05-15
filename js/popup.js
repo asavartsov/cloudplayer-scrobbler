@@ -26,36 +26,29 @@ $(document).ready(function() {
 function set_play_link() {
     $("#cover").click(open_play_tab);
 }
+
 /* Render functions */
-function update_song_info() {
-    $("#artist").text(bp.player.song.artist);
-    $("#track").text(bp.player.song.title);
-    $("#cover").attr({ src: bp.player.song.cover || "../img/defaultcover.png",
-        alt:bp.player.song.album});
-    $("#album").text(bp.player.song.album);
+function update_song_info(player) {
+    $("#artist").text(player.song.artist);
+    $("#track").text(player.song.title);
+    $("#cover").attr({ src: player.song.cover || "../img/defaultcover.png",
+        alt:player.song.album});
+    $("#album").text(player.song.album);
 
     if (bp.lastfm_api.session.name && bp.lastfm_api.session.key) {
-        render_love_button();
+        render_love_button(player);
     }
-    toggle_play_btn();
+    toggle_play_btn(player);
 }
 
-function toggle_play_btn() {
+function toggle_play_btn(player) {
     var play_btn = $("#play-pause-btn");
-    play_btn.toggle = function() {
-        if (bp.player.is_playing) {
-            play_btn.removeClass();
-            play_btn.addClass("pause");
-        } else {
-            play_btn.removeClass();
-            play_btn.addClass("play");
-        }
-    }
-    // TODO kind of hackish
-    // This callback can be called too early (before bp.player is updated)
-    // Thus, just try a few times for 3 seconds
-    for (var i = 0; i < 30; i++) {
-        setTimeout(play_btn.toggle, i * 100);
+    if (player.is_playing) {
+        play_btn.removeClass();
+        play_btn.addClass("pause");
+    } else {
+        play_btn.removeClass();
+        play_btn.addClass("play");
     }
 }
 
@@ -64,7 +57,7 @@ function toggle_play_btn() {
  */
 function render_song() {
     if (bp.player.has_song) {
-        update_song_info();
+        update_song_info(bp.player);
         $("#play-pause-btn").click(toggle_play);
         $("#next-btn").click(next_song);
         $("#prev-btn").click(prev_song);
@@ -124,21 +117,21 @@ function render_auth_link() {
 /**
  * Renders the love button
  */
-function render_love_button() {
+function render_love_button(player) {
     $("#love-button").html('<img src="../img/ajax-loader.gif">');
 
-    bp.lastfm_api.is_track_loved(bp.player.song.title,
-            bp.player.song.artist,
+    bp.lastfm_api.is_track_loved(player.song.title,
+            player.song.artist,
             function(result) {
                 $("#love-button").html('<a href="#"></a>');
                 if (result) {
                     $("#love-button a").attr({ title: "Unlove this song"})
-                    .click(on_unlove)
+                    .click(function() {on_unlove(player)})
                     .addClass("loved");
 
                 } else {
                     $("#love-button a").attr({ title: "Love this song" })
-                    .click(on_love)
+                    .click(function() {on_love(player)})
                     .addClass("notloved");
                 }
             });
@@ -151,12 +144,12 @@ function toggle_play() {
     find_play_tab(
         function(tab) {
             chrome.tabs.sendMessage(tab.id, {cmd: "tgl"},
-                function() {
+                function(player) {
                     if (has_song) {
-                        toggle_play_btn();
+                        toggle_play_btn(player);
                     } else { // if pressing FF on previous song reached end of play queue
-                        update_song_info();
-                        toggle_play_btn();
+                        update_song_info(player);
+                        toggle_play_btn(player);
                     }
                 }
             );
@@ -168,7 +161,14 @@ function prev_song() {
     find_play_tab(
         function(tab) {
             chrome.tabs.sendMessage(tab.id, {cmd: "prv"},
-                update_song_info);
+                function(player) {
+                    /* The player state is in a disabled state as it loads the
+                    * song initially, but we should display it as playing since
+                    * hitting next or previous always starts a song.
+                    */
+                    player.is_playing = true;
+                    update_song_info(player)
+                });
         }
     );
 }
@@ -177,7 +177,10 @@ function next_song() {
     find_play_tab(
         function(tab) {
             chrome.tabs.sendMessage(tab.id, {cmd: "nxt"},
-                update_song_info);
+                function(player) {
+                    player.is_playing = true;
+                    update_song_info(player)
+                });
         }
     );
 }
@@ -209,11 +212,11 @@ function on_logout() {
 /**
  * Love button was clicked
  */
-function on_love() {
-    bp.lastfm_api.love_track(bp.player.song.title, bp.player.song.artist,
+function on_love(player) {
+    bp.lastfm_api.love_track(player.song.title, player.song.artist,
         function(result) {
             if (!result.error) {
-                render_love_button();
+                render_love_button(player);
             }
             else {
                 if (result.error == 9) {
@@ -233,11 +236,11 @@ function on_love() {
 /**
  * Unlove button was clicked
  */
-function on_unlove() {
-    bp.lastfm_api.unlove_track(bp.player.song.title, bp.player.song.artist,
+function on_unlove(player) {
+    bp.lastfm_api.unlove_track(player.song.title, player.song.artist,
         function(result) {
             if (!result.error) {
-                render_love_button();
+                render_love_button(player);
             } else {
                 if (result.error == 9) {
                     // Session expired

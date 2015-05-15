@@ -155,26 +155,44 @@ chrome.runtime.onMessage.addListener(toggle_play);
 chrome.runtime.onMessage.addListener(prev_song);
 chrome.runtime.onMessage.addListener(next_song);
 
-function toggle_play(msg, sndr, callback) {
+function toggle_play(msg, sndr, send_response) {
     if (msg.cmd == "tgl") {
         $(".material-player-middle sj-icon-button[data-id='play-pause']").click();
-        port.postMessage(new Player(new GoogleMusicParser()));
-        callback();
+        /*
+        * Wait a little for the UI to update before sending a response
+        * with the updated state.
+        */
+        setTimeout(function() {
+            send_response(new Player(new GoogleMusicParser()));
+        }, 100);
+        /*
+        * Return true keeps the message channel open so the timeout function
+        * will be called, otherwise send_response will not work per
+        * https://developer.chrome.com/extensions/runtime#event-onMessage.
+        */
+        return true;
     }
+    return false;
 }
 
-function prev_song(msg, sndr, callback) {
+function prev_song(msg, sndr, send_response) {
     if (msg.cmd == "prv") {
         $(".material-player-middle sj-icon-button[data-id='rewind']").click();
-        port.postMessage(new Player(new GoogleMusicParser()));
-        callback();
+        setTimeout(function() {
+            send_response(new Player(new GoogleMusicParser()));
+        }, 100);
+        return true;
     }
+    return false;
 }
 
-function next_song(msg, sndr, callback) {
+function next_song(msg, sndr, send_response) {
     if (msg.cmd == "nxt") {
         $(".material-player-middle sj-icon-button[data-id='forward']").click();
-        port.postMessage(new Player(new GoogleMusicParser()));
-        callback();
+        setTimeout(function() {
+            send_response(new Player(new GoogleMusicParser()));
+        }, 100);
+        return true;
     }
+    return false;
 }
