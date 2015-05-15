@@ -39,7 +39,7 @@ GoogleMusicParser = function() {
  * @return true if some song is loaded, otherwise false
  */
 GoogleMusicParser.prototype._get_has_song = function() {
-    return $("#playerSongInfo div").hasClass("now-playing-menu-wrapper");
+    return $("#playerSongInfo").children().length > 0;
 };
 
 /**
@@ -48,7 +48,7 @@ GoogleMusicParser.prototype._get_has_song = function() {
  * @return true if song is playing, false if song is paused
  */
 GoogleMusicParser.prototype._get_is_playing = function() {
-    return $(".player-middle button[data-id='play-pause']").hasClass("playing");
+    return $(".material-player-middle sj-icon-button[data-id='play-pause']").hasClass("playing");
 };
 
 /**
@@ -95,7 +95,7 @@ GoogleMusicParser.prototype._get_song_time = function() {
  */
 GoogleMusicParser.prototype._get_song_title = function() {
     // the text inside the div located inside element with id="playerSongTitle"
-    return $("#playerSongTitle").text();
+    return $("#player-song-title").text();
 };
 
 /**
@@ -157,7 +157,7 @@ chrome.runtime.onMessage.addListener(next_song);
 
 function toggle_play(msg, sndr, callback) {
     if (msg.cmd == "tgl") {
-        $(".player-middle button[data-id='play-pause']").click();
+        $(".material-player-middle sj-icon-button[data-id='play-pause']").click();
         port.postMessage(new Player(new GoogleMusicParser()));
         callback();
     }
@@ -165,7 +165,7 @@ function toggle_play(msg, sndr, callback) {
 
 function prev_song(msg, sndr, callback) {
     if (msg.cmd == "prv") {
-        $(".player-middle button[data-id='rewind']").click();
+        $(".material-player-middle sj-icon-button[data-id='rewind']").click();
         port.postMessage(new Player(new GoogleMusicParser()));
         callback();
     }
@@ -173,7 +173,7 @@ function prev_song(msg, sndr, callback) {
 
 function next_song(msg, sndr, callback) {
     if (msg.cmd == "nxt") {
-        $(".player-middle button[data-id='forward']").click();
+        $(".material-player-middle sj-icon-button[data-id='forward']").click();
         port.postMessage(new Player(new GoogleMusicParser()));
         callback();
     }
