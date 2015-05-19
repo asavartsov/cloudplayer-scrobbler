@@ -7,6 +7,7 @@
 
 var player = {}; // Previous player state
 var time_played = 0;
+var last_refresh = (new Date()).getTime();
 var num_scrobbles = 0;
 var curr_song_title = '';
 var lastfm_api = new LastFM(SETTINGS.api_key, SETTINGS.api_secret);
@@ -55,6 +56,7 @@ function port_on_message(message) {
             curr_song_title = _p.song.title;
             time_played = 0;
             num_scrobbles = 0;
+            last_refresh = (new Date()).getTime() - _p.song.position * 1000;
         }
 
         if (_p.is_playing) {
@@ -65,11 +67,15 @@ function port_on_message(message) {
                     num_scrobbles < SETTINGS.max_scrobbles) {
                 scrobble_song(_p.song.artist,_p.song.album_artist,
                     _p.song.album, _p.song.title,
-                    Math.round(new Date().getTime() / 1000) - time_played);
+                    Math.round(new Date().getTime() / 1000 - time_played));
                 time_played = 0;
                 num_scrobbles += 1;
             } else {
-                time_played += SETTINGS.refresh_interval;
+                var now = (new Date()).getTime();
+                if (last_refresh != 0) {
+                    time_played += (now - last_refresh) / 1000;
+                }
+                last_refresh = now;
             }
 
             lastfm_api.now_playing(_p.song.title,
@@ -83,6 +89,7 @@ function port_on_message(message) {
             // The player is paused
             chrome.browserAction.setIcon({
                 'path': SETTINGS.paused_icon });
+            last_refresh = (new Date()).getTime();
         }
     } else {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
