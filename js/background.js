@@ -39,6 +39,7 @@ function port_on_connect(port) {
 function port_on_message(message) {
     // Current player state
     var _p = message;
+    var now = (new Date()).getTime();
 
     // Save player state
     player = _p;
@@ -51,17 +52,17 @@ function port_on_message(message) {
     }
 
     if (_p.has_song) {
+        // if the song changed or looped
         if (_p.song.title != curr_song_title ||
                 _p.song.position <= SETTINGS.refresh_interval) {
             curr_song_title = _p.song.title;
             time_played = 0;
             num_scrobbles = 0;
-            last_refresh = (new Date()).getTime() - _p.song.position * 1000;
+            last_refresh = now - SETTINGS.refresh_interval*1000;
         }
 
         if (_p.is_playing) {
-            chrome.browserAction.setIcon({
-                'path': SETTINGS.playing_icon });
+            chrome.browserAction.setIcon({'path': SETTINGS.playing_icon });
             if ((time_played >= _p.song.time * SETTINGS.scrobble_point ||
                     time_played >= SETTINGS.scrobble_interval) &&
                     num_scrobbles < SETTINGS.max_scrobbles) {
@@ -71,11 +72,14 @@ function port_on_message(message) {
                 time_played = 0;
                 num_scrobbles += 1;
             } else {
-                var now = (new Date()).getTime();
-                if (last_refresh != 0) {
-                    time_played += (now - last_refresh) / 1000;
-                }
-                last_refresh = now;
+                /*
+                * Don't depend on the SETTINGS.refresh_interval to
+                * calculate time_played since there can be a significant delay
+                * between the time the message was sent from the contentscript
+                * to when it's recieved here.
+                * See: https://github.com/newgiin/cloudplayer-scrobbler/issues/23
+                */
+                time_played += (now - last_refresh) / 1000;
             }
 
             lastfm_api.now_playing(_p.song.title,
@@ -89,11 +93,11 @@ function port_on_message(message) {
             // The player is paused
             chrome.browserAction.setIcon({
                 'path': SETTINGS.paused_icon });
-            last_refresh = (new Date()).getTime();
         }
     } else {
         chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
     }
+    last_refresh = now;
 }
 
 
@@ -119,6 +123,7 @@ function port_on_disconnect() {
     player = {}; // Clear player state
     time_played = 0;
     num_scrobbles = 0;
+    curr_song_title = '';
     chrome.browserAction.setIcon({ 'path': SETTINGS.main_icon });
 }
 
