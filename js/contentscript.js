@@ -48,7 +48,11 @@ GoogleMusicParser.prototype._get_has_song = function() {
  * @return true if song is playing, false if song is paused
  */
 GoogleMusicParser.prototype._get_is_playing = function() {
-    return $(".material-player-middle sj-icon-button[data-id='play-pause']").hasClass("playing");
+    var play_btn = $(".material-player-middle paper-icon-button[data-id='play-pause']");
+    if (play_btn.length == 0) {
+        play_btn = $(".material-player-middle sj-icon-button[data-id='play-pause']")
+    }
+    return play_btn.hasClass("playing");
 };
 
 /**
@@ -157,7 +161,11 @@ chrome.runtime.onMessage.addListener(next_song);
 
 function toggle_play(msg, sndr, send_response) {
     if (msg.cmd == "tgl") {
-        $(".material-player-middle sj-icon-button[data-id='play-pause']").click();
+        var play_btn = $(".material-player-middle paper-icon-button[data-id='play-pause']");
+        if (play_btn.length == 0) {
+            play_btn = $(".material-player-middle sj-icon-button[data-id='play-pause']")
+        }
+        play_btn.click();
         /*
         * Wait a little for the UI to update before sending a response
         * with the updated state.
@@ -177,7 +185,11 @@ function toggle_play(msg, sndr, send_response) {
 
 function prev_song(msg, sndr, send_response) {
     if (msg.cmd == "prv") {
-        $(".material-player-middle sj-icon-button[data-id='rewind']").click();
+        var prev_btn = $(".material-player-middle paper-icon-button[data-id='rewind']");
+        if (prev_btn.length == 0) {
+            prev_btn = $(".material-player-middle sj-icon-button[data-id='rewind']");
+        }
+        prev_btn.click();
         setTimeout(function() {
             send_response(new Player(new GoogleMusicParser()));
         }, 100);
@@ -188,7 +200,11 @@ function prev_song(msg, sndr, send_response) {
 
 function next_song(msg, sndr, send_response) {
     if (msg.cmd == "nxt") {
-        $(".material-player-middle sj-icon-button[data-id='forward']").click();
+        var next_btn = $(".material-player-middle paper-icon-button[data-id='forward']");
+        if (next_btn.length == 0) {
+            next_btn = $(".material-player-middle sj-icon-button[data-id='forward']");
+        }
+        next_btn.click();
         setTimeout(function() {
             send_response(new Player(new GoogleMusicParser()));
         }, 100);
