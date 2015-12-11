@@ -99,7 +99,7 @@ GoogleMusicParser.prototype._get_song_time = function() {
  */
 GoogleMusicParser.prototype._get_song_title = function() {
     // the text inside the div located inside element with id="playerSongTitle"
-    return $("#player-song-title").text();
+    return $("#currently-playing-title").text();
 };
 
 /**
@@ -117,7 +117,7 @@ GoogleMusicParser.prototype._get_song_artist = function() {
  * @return The album artist
  */
 GoogleMusicParser.prototype._get_album_artist = function() {
-    var album_artist = $(".player-album").attr('data-id');
+    var album_artist = $("#playerSongInfo .player-album").attr('data-id');
     if (album_artist)
         return decodeURIComponent(
             album_artist.split('/')[1].replace(/\+/g, ' '));
@@ -130,7 +130,7 @@ GoogleMusicParser.prototype._get_album_artist = function() {
  * @return Image URL or default artwork
  */
 GoogleMusicParser.prototype._get_song_cover = function() {
-    var albumImg = $("#playingAlbumArt").attr("src");
+    var albumImg = $("#playerBarArt").attr("src");
     if (albumImg)
         return albumImg;
     return null;
@@ -142,7 +142,7 @@ GoogleMusicParser.prototype._get_song_cover = function() {
  * @return Album name or null
  */
 GoogleMusicParser.prototype._get_song_album = function() {
-    return $("#playerSongInfo .player-artist-album-wrapper .player-album").text();
+    return $("#playerSongInfo .player-album").text();
 };
 
 var port = chrome.runtime.connect();
