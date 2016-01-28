@@ -65,7 +65,8 @@ function port_on_message(message) {
             chrome.browserAction.setIcon({'path': SETTINGS.playing_icon });
             if ((time_played >= _p.song.time * SETTINGS.scrobble_point ||
                     time_played >= SETTINGS.scrobble_interval) &&
-                    num_scrobbles < SETTINGS.max_scrobbles) {
+                    num_scrobbles < SETTINGS.max_scrobbles &&
+                    !is_advertisment(_p.song)) {
                 scrobble_song(_p.song.artist,_p.song.album_artist,
                     _p.song.album, _p.song.title,
                     Math.round(new Date().getTime() / 1000 - time_played));
@@ -114,6 +115,11 @@ function scrobble_song(artist, album_artist, album, title, time) {
                      'path': SETTINGS.error_icon });
             }
         });
+}
+
+function is_advertisment(song) {
+    return song.title === SETTINGS.gmusic_ads_metadata.title &&
+            song.artist === SETTINGS.gmusic_ads_metadata.artist
 }
 
 /**

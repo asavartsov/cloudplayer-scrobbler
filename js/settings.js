@@ -14,7 +14,12 @@ var SETTINGS = {
     scrobble_interval: 420, // 7 minutes
     max_scrobbles: Number.POSITIVE_INFINITY,
 
-    refresh_interval: 2
+    refresh_interval: 2,
+
+    gmusic_ads_metadata: {
+        title: 'We\'ll be right back',
+        artist: 'Subscribe to go ad-free'
+    }
 };
 
 SETTINGS.max_scrobbles = localStorage['max_scrobbles'] &&
