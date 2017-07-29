@@ -59,6 +59,15 @@ function port_on_message(message) {
             time_played = 0;
             num_scrobbles = 0;
             last_refresh = now - SETTINGS.refresh_interval*1000;
+
+            lastfm_api.now_playing(_p.song.title,
+                _p.song.artist,
+                _p.song.album,
+                _p.song.time,
+                function(response) {
+                   // TODO:
+                }
+            );
         }
 
         if (_p.is_playing) {
@@ -82,14 +91,6 @@ function port_on_message(message) {
                 */
                 time_played += (now - last_refresh) / 1000;
             }
-
-            lastfm_api.now_playing(_p.song.title,
-                _p.song.artist,
-                _p.song.album,
-                function(response) {
-                   // TODO:
-                }
-            );
         } else {
             // The player is paused
             chrome.browserAction.setIcon({
