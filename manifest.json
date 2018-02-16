@@ -10,8 +10,14 @@
       "https://play.google.com/"
    ],
    "background": {
-    "scripts": ["js/md5.js", "js/lastfm.js",
-      "js/settings.js", "js/util.js", "js/background.js"],
+    "scripts": [
+      "js/md5.js",
+      "js/lastfm.js",
+      "js/settings.js",
+      "js/util.js",
+      "js/logging.js",
+      "js/background.js"
+    ],
     "persistent": false
    },
    "icons" : {

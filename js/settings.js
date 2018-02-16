@@ -10,7 +10,7 @@ var SETTINGS = {
     error_icon: '../img/main-icon-error.png',
     scrobbling_stopped_icon: '../img/main-icon-scrobbling-stopped.png',
 
-    scrobble_point: .7,
+    scrobble_point: 0.7,
     scrobble_interval: 420, // 7 minutes
     max_scrobbles: Number.POSITIVE_INFINITY,
 
@@ -22,9 +22,12 @@ var SETTINGS = {
     }
 };
 
-SETTINGS.max_scrobbles = localStorage['max_scrobbles'] &&
-                            parseInt(localStorage['max_scrobbles']) ||
+SETTINGS.max_scrobbles = localStorage.getItem('max_scrobbles') &&
+                            parseInt(localStorage.getItem('max_scrobbles')) ||
                             SETTINGS.max_scrobbles;
 
+SETTINGS.logs_enabled = localStorage.getItem('logs_enabled') &&
+                            localStorage.getItem('logs_enabled') == 'true';
+
 // This enables scrobbling by default
-SETTINGS.scrobble = !(localStorage["scrobble"] == "false");
+SETTINGS.scrobble = localStorage.getItem("scrobble") != "false";

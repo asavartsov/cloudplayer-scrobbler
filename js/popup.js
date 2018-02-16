@@ -126,12 +126,12 @@ function render_love_button(player) {
                 $("#love-button").html('<a href="#"></a>');
                 if (result) {
                     $("#love-button a").attr({ title: "Unlove this song"})
-                    .click(function() {on_unlove(player)})
+                    .click(function() {on_unlove(player);})
                     .addClass("loved");
 
                 } else {
                     $("#love-button a").attr({ title: "Love this song" })
-                    .click(function() {on_love(player)})
+                    .click(function() {on_love(player);})
                     .addClass("notloved");
                 }
             });
@@ -167,7 +167,7 @@ function prev_song() {
                     * hitting next or previous always starts a song.
                     */
                     player.is_playing = true;
-                    update_song_info(player)
+                    update_song_info(player);
                 });
         }
     );
@@ -179,7 +179,7 @@ function next_song() {
             chrome.tabs.sendMessage(tab.id, {cmd: "nxt"},
                 function(player) {
                     player.is_playing = true;
-                    update_song_info(player)
+                    update_song_info(player);
                 });
         }
     );

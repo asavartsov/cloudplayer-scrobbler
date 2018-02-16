@@ -4,6 +4,7 @@
  * Copyright (c) 2011 Alexey Savartsov <asavartsov@gmail.com>
  * Licensed under the MIT license
  */
+log("background.js loaded");
 var player = {}; // Previous player state
 var time_played = 0;
 var last_refresh = (new Date()).getTime();
@@ -29,6 +30,7 @@ bind_keyboard_shortcuts();
  * Content script has connected to the extension
  */
 function port_on_connect(port) {
+  log("Content script connected");
   port.onMessage.addListener(port_on_message);
   port.onDisconnect.addListener(port_on_disconnect);
 }

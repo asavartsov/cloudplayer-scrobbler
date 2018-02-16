@@ -50,7 +50,7 @@ GoogleMusicParser.prototype._get_has_song = function() {
 GoogleMusicParser.prototype._get_is_playing = function() {
     var play_btn = $(".material-player-middle paper-icon-button[data-id='play-pause']");
     if (play_btn.length == 0) {
-        play_btn = $(".material-player-middle sj-icon-button[data-id='play-pause']")
+        play_btn = $(".material-player-middle sj-icon-button[data-id='play-pause']");
     }
     return play_btn.hasClass("playing");
 };
@@ -163,7 +163,7 @@ function toggle_play(msg, sndr, send_response) {
     if (msg.cmd == "tgl") {
         var play_btn = $(".material-player-middle paper-icon-button[data-id='play-pause']");
         if (play_btn.length == 0) {
-            play_btn = $(".material-player-middle sj-icon-button[data-id='play-pause']")
+            play_btn = $(".material-player-middle sj-icon-button[data-id='play-pause']");
         }
         play_btn.click();
         /*

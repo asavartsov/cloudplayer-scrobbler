@@ -2,9 +2,18 @@
 function save_options() {
     var scrobble_mult = document.getElementById('scrobble_mult').checked;
     if (!scrobble_mult) {
-        localStorage['max_scrobbles'] = 1;
+        // TODO localStorage actually stores this as a string. Find out
+        // if this causes bugs.
+        localStorage.setItem('max_scrobbles', 1);
     } else {
-        localStorage.removeItem('max_scrobbles')
+        localStorage.removeItem('max_scrobbles');
+    }
+
+    var logs_enabled = document.getElementById('log_checkbox').checked;
+    if (logs_enabled) {
+        localStorage.setItem('logs_enabled', 'true');
+    } else {
+        localStorage.removeItem('logs_enabled');
     }
 
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
@@ -18,12 +27,16 @@ function save_options() {
     });
 }
 
+
 // Restores select box state to saved value from localStorage.
 function restore_options() {
     var scrobble_mult = SETTINGS.max_scrobbles > 1;
     document.getElementById('scrobble_mult').checked = scrobble_mult;
-    document.getElementById('minute_field').innerHTML = 
+    document.getElementById('logs_enabled').checked = SETTINGS.logs_enabled;
+    document.getElementById('minute_field').innerHTML =
             Math.round((SETTINGS.scrobble_interval / 60) * 100) / 100;
 }
+
+
 document.addEventListener('DOMContentLoaded', restore_options);
 document.querySelector('#save').addEventListener('click', save_options);
