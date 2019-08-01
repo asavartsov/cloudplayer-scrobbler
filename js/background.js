@@ -57,6 +57,7 @@ function port_on_message(message) {
     // if the song changed or looped
     if (_p.song.title != curr_song_title ||
         _p.song.position <= SETTINGS.refresh_interval) {
+      log("Started playing: " + _p.song.artist + " - " + _p.song.title);
       curr_song_title = _p.song.title;
       time_played = 0;
       num_scrobbles = 0;
@@ -78,6 +79,11 @@ function port_on_message(message) {
            time_played >= SETTINGS.scrobble_interval) &&
            num_scrobbles < SETTINGS.max_scrobbles &&
            !is_advertisment(_p.song)) {
+        log("Scrobbled: " + _p.song.artist + " - " + _p.song.title);
+        log("time_played: " + time_played);
+        log("scrobble point: " + (_p.song.time * SETTINGS.scrobble_point));
+        log("num_scrobbles: " + num_scrobbles);
+
         scrobble_song(_p.song.artist,_p.song.album_artist,
           _p.song.album, _p.song.title,
           Math.round(new Date().getTime() / 1000 - time_played));

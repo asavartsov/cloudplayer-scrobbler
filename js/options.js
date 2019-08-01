@@ -32,7 +32,7 @@ function save_options() {
 function restore_options() {
     var scrobble_mult = SETTINGS.max_scrobbles > 1;
     document.getElementById('scrobble_mult').checked = scrobble_mult;
-    document.getElementById('logs_enabled').checked = SETTINGS.logs_enabled;
+    document.getElementById('log_checkbox').checked = SETTINGS.logs_enabled;
     document.getElementById('minute_field').innerHTML =
             Math.round((SETTINGS.scrobble_interval / 60) * 100) / 100;
 }
