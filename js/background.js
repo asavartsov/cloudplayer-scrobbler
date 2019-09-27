@@ -75,7 +75,8 @@ function port_on_message(message) {
 
     if (_p.is_playing) {
       chrome.browserAction.setIcon({'path': SETTINGS.playing_icon });
-      if ((time_played >= _p.song.time * SETTINGS.scrobble_point ||
+      if ((_p.song.time &&
+           time_played >= _p.song.time * SETTINGS.scrobble_point ||
            time_played >= SETTINGS.scrobble_interval) &&
            num_scrobbles < SETTINGS.max_scrobbles &&
            !is_advertisment(_p.song)) {
