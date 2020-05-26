@@ -1,13 +1,14 @@
 {
-   "name" : "Google Play Last.fm Scrobbler",
-   "description" : "Scrobbles songs from Google Play to Last.fm",
-   "version" : "1.7.2",
+   "name" : "YouTube Music Last.fm Scrobbler",
+   "description" : "Scrobbles songs from YouTube Music or Google Play to Last.fm",
+   "version" : "2.0.0",
    "manifest_version": 2,
    "permissions" : [
       "tabs",
       "http://ws.audioscrobbler.com/",
       "http://play.google.com/",
-      "https://play.google.com/"
+      "https://play.google.com/",
+      "https://music.youtube.com/"
    ],
    "background": {
     "scripts": [
@@ -42,9 +43,20 @@
          ]
       },
       {
+         "matches" : [
+            "*://music.youtube.com/*"
+         ],
+         "js" : [
+            "js/inject.js",
+            "js/settings.js",
+            "js/ytm_contentscript.js"
+         ]
+      },
+      {
          "run_at" : "document_start",
          "matches" : [
-            "*://play.google.com/music/listen*"
+            "*://play.google.com/music/listen*",
+            "*://music.youtube.com/*"
          ],
          "js" : [
             "js/jquery-1.7.min.js"
@@ -84,7 +96,7 @@
         "suggested_key": {
           "default": "Ctrl+Shift+0"
         },
-        "description": "Go to Google Play tab",
+        "description": "Go to YT Music/Google Music tab",
         "global": true
       }
     }

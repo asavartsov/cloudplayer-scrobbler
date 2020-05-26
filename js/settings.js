@@ -14,7 +14,7 @@ var SETTINGS = {
     scrobble_interval: 420, // 7 minutes
     max_scrobbles: Number.POSITIVE_INFINITY,
 
-    refresh_interval: 2,
+    refresh_interval: 4,
 
     gmusic_ads_metadata: {
         title: 'We\'ll be right back',
