@@ -85,15 +85,11 @@ function port_on_message(message) {
         log("scrobble point: " + (_p.song.time * SETTINGS.scrobble_point));
         log("num_scrobbles: " + num_scrobbles);
 
-        var time_scrobbled =
-            Math.round(new Date().getTime() / 1000 - time_played);
-        // Reset the time_played before the RPC to prevent repeat scrobbling
-        // in the case the Scrobble RPC takes a long time.
-        time_played = 0;
-        num_scrobbles += 1;
         scrobble_song(_p.song.artist,_p.song.album_artist,
           _p.song.album, _p.song.title,
-          time_scrobbled);
+          Math.round(new Date().getTime() / 1000 - time_played));
+        time_played = 0;
+        num_scrobbles += 1;
       } else {
         /*
         * Don't depend on the SETTINGS.refresh_interval to
