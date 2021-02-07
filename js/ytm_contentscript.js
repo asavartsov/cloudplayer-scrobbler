@@ -48,7 +48,9 @@ YtMusicParser.prototype._get_has_song = function() {
  * @return true if song is playing, false if song is paused
  */
 YtMusicParser.prototype._get_is_playing = function() {
-    return play_btn = $("#play-pause-button").attr("title") === "Pause";
+    // YT app prepends current song's name to the tab title
+    var songTitle = this._get_song_title()
+    return songTitle.length > 0 && window.document.title.startsWith(songTitle)
 };
 
 /**
