@@ -1,10 +1,9 @@
 {
    "name" : "YouTube Music Last.fm Scrobbler",
    "description" : "Scrobbles songs from YouTube Music or Google Play to Last.fm",
-   "version" : "2.0.0",
+   "version" : "2.0.1",
    "manifest_version": 2,
    "permissions" : [
-      "tabs",
       "http://ws.audioscrobbler.com/",
       "http://play.google.com/",
       "https://play.google.com/",
