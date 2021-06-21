@@ -1,4 +1,4 @@
-Google Music Player scrobbler
+Google Play Last.fm scrobbler
 -----------------------------
 
 Google Chrome plugin for scrobbling songs from Google Music Player to Last.fm
@@ -6,43 +6,19 @@ Google Chrome plugin for scrobbling songs from Google Music Player to Last.fm
 Features
 ========
 
-* Scrobbles now playing songs at 70% played time
 * Song information in popup window
-* Cloud Player state in icon
-* Love/unlove now playing song
-* Option to turn scrobbling off if you do not want to send scrobbles
+* Love/unlove tracks
+* Toggle scrobbling
 
 Installation
 ============
 
-Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/lhlmaloocaogaldcbpimhlbimmhaonep)
-
-Version History
-===============
-
-**Version 1.2.4**
-
-* Spanish fixes
-
-**Version 1.2.3**
-
-* Google Play
-
-**Version 1.2.2**
-
-* Timestamp fixes
-* HTTPS support
-
-**Version 1.2.1**
-
-* Album art image size fixed to 60x60px
-
-**Version 1.2.0**
-
-* Port scrobbler to Google Music Beta
+Install stable release from [Google Web Store](https://chrome.google.com/webstore/detail/google-play-scrobbler/llpepekkleeoeiloijhcafgpjdnhhcbl)
 
 Authors
 =======
+
+[Andrew Nguyen](https://github.com/newgiin)
 
 [Alexey Savartsov](https://github.com/asavartsov), asavartsov@gmail.com
 
@@ -53,6 +29,11 @@ Thanks to contributors:
 [Matt Henkel](https://github.com/guildencrantz)
 
 [Caleb Brown](https://github.com/kayluhb)
+
+Icons
+=======
+www.glyphicons.com 
+[CC by](http://creativecommons.org/licenses/by/3.0/us/)
 
 License
 =======
@@ -79,3 +60,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
