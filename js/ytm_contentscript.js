@@ -125,7 +125,7 @@ YtMusicParser.prototype._get_album_artist = function() {
  * @return Image URL or default artwork
  */
 YtMusicParser.prototype._get_song_cover = function() {
-    var albumImg = $("div.middle-controls.ytmusic-player-bar>img").attr("src");
+    var albumImg = $("div.thumbnail-image-wrapper.ytmusic-player-bar>img").attr("src");
     if (albumImg)
         return albumImg;
     return null;
