@@ -27,9 +27,9 @@ function Player(parser) {
 /**
  * Constructor for parser class
  * Executes scripts to fetch now playing info from cloudplayer
- * @returns {GoogleMusicParser}
+ * @returns {YtMusicParser}
  */
-GoogleMusicParser = function() {
+YtMusicParser = function() {
 
 };
 
@@ -38,8 +38,8 @@ GoogleMusicParser = function() {
  *
  * @return true if some song is loaded, otherwise false
  */
-GoogleMusicParser.prototype._get_has_song = function() {
-    return $("#playerSongInfo").children().length > 0;
+YtMusicParser.prototype._get_has_song = function() {
+    return $("yt-formatted-string.title.ytmusic-player-bar").text().length > 0;
 };
 
 /**
@@ -47,12 +47,10 @@ GoogleMusicParser.prototype._get_has_song = function() {
  *
  * @return true if song is playing, false if song is paused
  */
-GoogleMusicParser.prototype._get_is_playing = function() {
-    var play_btn = $(".material-player-middle paper-icon-button[data-id='play-pause']");
-    if (play_btn.length == 0) {
-        play_btn = $(".material-player-middle sj-icon-button[data-id='play-pause']");
-    }
-    return play_btn.hasClass("playing");
+YtMusicParser.prototype._get_is_playing = function() {
+    // YT app prepends current song's name to the tab title
+    var songTitle = this._get_song_title()
+    return songTitle.length > 0 && window.document.title.startsWith(songTitle)
 };
 
 /**
@@ -60,9 +58,9 @@ GoogleMusicParser.prototype._get_is_playing = function() {
  *
  * @return Playing position in seconds
  */
-GoogleMusicParser.prototype._get_song_position = function() {
-    var _time = $("#time_container_current").text();
-    _time = $.trim(_time).split(':');
+YtMusicParser.prototype._get_song_position = function() {
+    var _time = $("span.time-info").text().split("/")[0];
+    _time = $.trim(_time).split(":");
     if(_time.length == 2)
     {
         return (parseInt(_time[0]) * 60 + parseInt(_time[1]));
@@ -79,9 +77,9 @@ GoogleMusicParser.prototype._get_song_position = function() {
  *
  * @return Song length in seconds
  */
-GoogleMusicParser.prototype._get_song_time = function() {
-    var _time = $("#time_container_duration").text();
-    _time = $.trim(_time).split(':');
+YtMusicParser.prototype._get_song_time = function() {
+    var _time = $("span.time-info").text().split("/")[1];
+    _time = $.trim(_time).split(":");
     if(_time.length == 2) {
         return (parseInt(_time[0]) * 60 + parseInt(_time[1]));
     }
@@ -97,9 +95,9 @@ GoogleMusicParser.prototype._get_song_time = function() {
  *
  * @return Song title
  */
-GoogleMusicParser.prototype._get_song_title = function() {
+YtMusicParser.prototype._get_song_title = function() {
     // the text inside the div located inside element with id="playerSongTitle"
-    return $("#currently-playing-title").text();
+    return $("yt-formatted-string.title.ytmusic-player-bar").text();
 };
 
 /**
@@ -107,8 +105,8 @@ GoogleMusicParser.prototype._get_song_title = function() {
  *
  * @return Song artist
  */
-GoogleMusicParser.prototype._get_song_artist = function() {
-    return $("#player-artist").text();
+YtMusicParser.prototype._get_song_artist = function() {
+   return $("span.subtitle.ytmusic-player-bar>yt-formatted-string>a").first().text();
 };
 
 /**
@@ -116,12 +114,9 @@ GoogleMusicParser.prototype._get_song_artist = function() {
  *
  * @return The album artist
  */
-GoogleMusicParser.prototype._get_album_artist = function() {
-    var album_artist = $("#playerSongInfo .player-album").attr('data-id');
-    if (album_artist)
-        return decodeURIComponent(
-            album_artist.split('/')[1].replace(/\+/g, ' '));
-    return null;
+YtMusicParser.prototype._get_album_artist = function() {
+    // TODO: Check if album artist is actually available.
+   return $("span.subtitle.ytmusic-player-bar>yt-formatted-string>a").first().text();
 };
 
 /**
@@ -129,8 +124,8 @@ GoogleMusicParser.prototype._get_album_artist = function() {
  *
  * @return Image URL or default artwork
  */
-GoogleMusicParser.prototype._get_song_cover = function() {
-    var albumImg = $("#playerBarArt").attr("src");
+YtMusicParser.prototype._get_song_cover = function() {
+    var albumImg = $("div.thumbnail-image-wrapper.ytmusic-player-bar>img").attr("src");
     if (albumImg)
         return albumImg;
     return null;
@@ -141,14 +136,14 @@ GoogleMusicParser.prototype._get_song_cover = function() {
  *
  * @return Album name or null
  */
-GoogleMusicParser.prototype._get_song_album = function() {
-    return $("#playerSongInfo .player-album").text();
+YtMusicParser.prototype._get_song_album = function() {
+    return $("span.subtitle.style-scope.ytmusic-player-bar>yt-formatted-string>a").last().text();
 };
 
 var port = chrome.runtime.connect();
 
 window.setInterval(function() {
-    port.postMessage(new Player(new GoogleMusicParser()));
+    port.postMessage(new Player(new YtMusicParser()));
 },
 SETTINGS.refresh_interval * 1000);
 
@@ -161,17 +156,14 @@ chrome.runtime.onMessage.addListener(next_song);
 
 function toggle_play(msg, sndr, send_response) {
     if (msg.cmd == "tgl") {
-        var play_btn = $(".material-player-middle paper-icon-button[data-id='play-pause']");
-        if (play_btn.length == 0) {
-            play_btn = $(".material-player-middle sj-icon-button[data-id='play-pause']");
-        }
+        var play_btn = $("#play-pause-button");
         play_btn.click();
         /*
         * Wait a little for the UI to update before sending a response
         * with the updated state.
         */
         setTimeout(function() {
-            send_response(new Player(new GoogleMusicParser()));
+            send_response(new Player(new YtMusicParser()));
         }, 100);
         /*
         * Return true keeps the message channel open so the timeout function
@@ -185,13 +177,10 @@ function toggle_play(msg, sndr, send_response) {
 
 function prev_song(msg, sndr, send_response) {
     if (msg.cmd == "prv") {
-        var prev_btn = $(".material-player-middle paper-icon-button[data-id='rewind']");
-        if (prev_btn.length == 0) {
-            prev_btn = $(".material-player-middle sj-icon-button[data-id='rewind']");
-        }
+        var prev_btn = $("div.left-controls-buttons>.previous-button");
         prev_btn.click();
         setTimeout(function() {
-            send_response(new Player(new GoogleMusicParser()));
+            send_response(new Player(new YtMusicParser()));
         }, 100);
         return true;
     }
@@ -200,13 +189,10 @@ function prev_song(msg, sndr, send_response) {
 
 function next_song(msg, sndr, send_response) {
     if (msg.cmd == "nxt") {
-        var next_btn = $(".material-player-middle paper-icon-button[data-id='forward']");
-        if (next_btn.length == 0) {
-            next_btn = $(".material-player-middle sj-icon-button[data-id='forward']");
-        }
+        var next_btn = $("div.left-controls-buttons>.next-button");
         next_btn.click();
         setTimeout(function() {
-            send_response(new Player(new GoogleMusicParser()));
+            send_response(new Player(new YtMusicParser()));
         }, 100);
         return true;
     }
